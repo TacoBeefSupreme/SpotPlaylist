@@ -21,7 +21,7 @@
 import helpers from '../../assets/js/helpers';
 
 export default {
-    name: 'rightContent',
+    name: 'volumeControl',
     props: {
         volume: String,
         mute: Boolean

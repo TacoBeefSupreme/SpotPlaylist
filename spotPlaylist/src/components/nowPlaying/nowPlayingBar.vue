@@ -4,9 +4,9 @@
     >
         <div class="container-fluid">
             <div class="row bar">
-                <leftContent />
-                <centerContent />
-                <rightContent />
+                <TrackMetaData />
+                <AudioControl />
+                <VolumeControl />
             </div>
 
             <div v-if="this.$store.getters.getCurrentTrack">
@@ -25,17 +25,17 @@
 </template>
 
 <script>
-import leftContent from './leftContent';
-import centerContent from './centerContent';
-import rightContent from './rightContent'
+import TrackMetaData from './trackMetaData';
+import AudioControl from './audioControl';
+import VolumeControl from './volumeControl'
 import helpers from '../../assets/js/helpers';
 
 export default {
     name: 'nowPlayingBar',
     components: {
-        leftContent,
-        centerContent,
-        rightContent
+        TrackMetaData,
+        AudioControl,
+        VolumeControl
     },
     computed: {
         setAudioSource(){

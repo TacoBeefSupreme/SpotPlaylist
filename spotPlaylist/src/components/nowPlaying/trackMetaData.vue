@@ -20,7 +20,7 @@
 
 <script>
 export default {
-    name: 'leftContent',
+    name: 'trackMetaData',
     computed: {
         setArtistName(){
             const currentTrack = this.$store.getters.getCurrentTrack;

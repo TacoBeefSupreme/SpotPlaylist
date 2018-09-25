@@ -45,7 +45,7 @@
 import helpers from '../../assets/js/helpers';
 
 export default {
-    name: 'centerContent',
+    name: 'audioControl',
     props: {
         progress: {
             type: String,
