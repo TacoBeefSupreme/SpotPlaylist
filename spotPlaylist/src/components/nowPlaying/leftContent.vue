@@ -1,18 +1,18 @@
 <template>
     <div class="col">
         <div class="content">
-            <img class="artwork" v-bind:src="currentTrackArtwork"/>
+            <img class="artwork" v-bind:src="setArtworkPath"/>
             <!-- <img class="artwork" src="https://i.scdn.co/image/c8496887deb3062348d7b3c219e6815e3c2c67de"/> -->
             
         </div>
 
         <div class="trackData">
             <div class="trackName">
-                <span>{{ trackName }}</span>
+                <span>{{ setTracKName }}</span>
             </div>
     
             <div class="artistName">
-                <span>{{ artistName }}</span>
+                <span>{{ setArtistName }}</span>
             </div>
         </div>
     </div>
@@ -21,10 +21,19 @@
 <script>
 export default {
     name: 'leftContent',
-    props: {
-        artistName: String,
-        trackName: String,
-        currentTrackArtwork: String
+    computed: {
+        setArtistName(){
+            const currentTrack = this.$store.getters.getCurrentTrack;
+            return (currentTrack)?currentTrack.artists[0].name:'';
+        },
+        setTracKName(){
+            const currentTrack = this.$store.getters.getCurrentTrack;
+            return (currentTrack)?currentTrack.name:'';
+        },
+        setArtworkPath(){
+            const currentArtwork = this.$store.getters.getCurrentArtwork;
+            return (currentArtwork)?currentArtwork:'';
+        }
     }
 }
 </script>

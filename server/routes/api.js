@@ -44,7 +44,7 @@ router.get('/tracks', (req, res) => {
     .clientCredentialsGrant()
     .then(function(data) {
       spotifyWebApi.setAccessToken(data.body['access_token']);
-      return spotifyWebApi.searchArtists('Eyasu', { limit: 10 });
+      return spotifyWebApi.searchArtists('michael jackson', { limit: 10 });
     })
     .then(function(data) {
       const artistId = data.body.artists.items[0].id;

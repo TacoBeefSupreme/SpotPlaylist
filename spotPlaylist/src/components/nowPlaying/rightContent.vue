@@ -3,7 +3,7 @@
         <div class="volumeBar">
 
             <button class="controlButton volume" title="Volume Button" @click="onMute">
-                <img v-if="mute" src="../../assets/images/icons/volume-mute.png" alt="Volume">
+                <img v-if="this.$store.getters.isMute" src="../../assets/images/icons/volume-mute.png" alt="Volume">
                 <img v-else src="../../assets/images/icons/volume.png" alt="Volume">
             </button>
  
@@ -40,27 +40,29 @@ export default {
     computed: {
         widthPercentage(){
             return {
-                width: this.volume
+                width: this.$store.getters.getVolume
             }
         }
     },
     methods: {
         onMute(){
-             this.$emit('muteSong');
+            this.$store.dispatch('muteSong', !this.$store.getters.isMute);
         },
         onMouseDown(){
-            this.$emit('mouseDownVolumeBar', true);
+            this.$store.dispatch('setMouseDown', true);
         },
         onMouseMove(e){
-            const percentage = helpers.volumePercentageOffset(e, this.volumeProgressBar);
-            if(percentage >= 0 && percentage <= 1 ){
-                this.$emit('mouseMoveVolumeBar', percentage);
+            if(this.$store.getters.isMouseDown){
+                const percentage = helpers.volumePercentageOffset(e, this.volumeProgressBar);
+                if(percentage >= 0 && percentage <= 1 ){
+                    this.$store.dispatch('setAudioElementVolumePercentage', percentage);
+                }
             }
         },
         onMouseUp(e){
             const percentage = helpers.volumePercentageOffset(e, this.volumeProgressBar);
             if(percentage >= 0 && percentage <= 1 ){
-                this.$emit('mouseUpVolumeBar', percentage);
+                this.$store.dispatch('setAudioElementVolumePercentage', percentage);
             }
         }
     },

@@ -3,7 +3,7 @@
         <div class="content playerControls">
             <div class="buttons">
                 <button type="button" class="controlButton" title="Shuffle button" @click="onShuffle" >
-                    <img v-if="shuffle" src="../../assets/images/icons/shuffle-active.png" alt="Shuffle">
+                    <img v-if="this.$store.getters.isShuffle" src="../../assets/images/icons/shuffle-active.png" alt="Shuffle">
                     <img v-else src="../../assets/images/icons/shuffle.png" alt="Shuffle">
                 </button>
 
@@ -11,7 +11,7 @@
                     <img src="../../assets/images/icons/previous.png" alt="Previous">
                 </button>
 
-                <button v-if="playing" class="controlButton play" title="Play button" @click="onPlay">
+                <button v-if="this.$store.getters.isPlaying" class="controlButton play" title="Play button" @click="onPlay">
                     <img src="../../assets/images/icons/play.png" alt="Play">
                 </button>
 
@@ -24,18 +24,18 @@
                 </button>
 
                 <button class="controlButton" title="Repeat button" @click="onRepeat" >
-                    <img v-if="repeat" src="../../assets/images/icons/repeat-active.png" alt="Repeat">
+                    <img v-if="this.$store.getters.isRepeat" src="../../assets/images/icons/repeat-active.png" alt="Repeat">
                     <img v-else src="../../assets/images/icons/repeat.png" alt="Repeat">
                 </button>
         
             </div>
 
             <div class="playbackBar">
-                <span class="progressTime">{{ currentTime }}</span>
+                <span class="progressTime">{{ this.$store.getters.getCurrentTime }}</span>
                 <div class="progressBar" ref="progressBar" @mousedown="onMouseDown" @mouseup="onMouseUp" @mousemove="onMouseMove">
                     <div v-bind:style="[baseProgressStyles, widthPercentage]" ></div>
                 </div>
-                <span class="progressTime">{{ remainingTime }}</span>
+                <span class="progressTime">{{ this.$store.getters.getRemainingTime }}</span>
             </div>
         </div>
     </div>
@@ -47,16 +47,10 @@ import helpers from '../../assets/js/helpers';
 export default {
     name: 'centerContent',
     props: {
-        playing: Boolean,
-        currentTime: String,
-        remainingTime: String,
         progress: {
             type: String,
             default: '0%'
-        },
-        duration: Number,
-        repeat: Boolean,
-        shuffle: Boolean
+        }
     },
     data() {
         return {
@@ -72,19 +66,16 @@ export default {
     computed: {
         widthPercentage(){
             return {
-                width: this.progress
+                width: this.$store.getters.getProgress
             }
         }
     },
     methods: {
         onPlay(){
-            if(this.$store.getters.getCurrentTrack){
-                // takes care of case when user clicks play button before song is loaded from server
-                this.$store.dispatch('playPauseSong', {
-                    playing: false,
-                    playSong: true
-                });
-            }
+            this.$store.dispatch('playPauseSong', {
+                playing: false,
+                playSong: true
+            });
         },
         onPause(){
             this.$store.dispatch('playPauseSong', {
@@ -95,20 +86,31 @@ export default {
         onRepeat(){
             this.$store.dispatch('repeatSong', !this.$store.getters.isRepeat);
         },
-
         onShuffle(){
-            this.$emit('shuffleSongs');
+            this.$store.dispatch('setSuffle', {
+                shuffle: !this.$store.getters.isShuffle
+            });
+        },
+        onNext(){
+            this.$store.dispatch('setNextTrack');
+        },
+
+        onPrev(){
+            this.$store.dispatch('setPrevTrack');
         },
         onMouseDown(){
-            this.$emit('mouseDown', true);
+            this.$store.dispatch('setMouseDown', true);
         },
         onMouseMove(e){
-            const seconds = helpers.timeFromOffset(e, this.progressBar, this.duration);
-            this.$emit('mouseMove', seconds);
+            if(this.$store.getters.isMouseDown){
+                // set time of song depending on posistion of mouse
+                const seconds = helpers.timeFromOffset(e, this.progressBar, this.$store.getters.getDuration);
+                this.$store.dispatch('setAudioElementCurrentTime', seconds);
+            }
         },
         onMouseUp(e){
-            const seconds = helpers.timeFromOffset(e, this.progressBar, this.duration);
-            this.$emit('mouseUp', seconds);
+            const seconds = helpers.timeFromOffset(e, this.progressBar, this.$store.getters.getDuration);
+            this.$store.dispatch('setAudioElementCurrentTime', seconds);
         }
     },
     mounted(){

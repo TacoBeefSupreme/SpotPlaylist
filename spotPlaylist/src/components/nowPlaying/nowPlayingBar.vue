@@ -4,22 +4,12 @@
     >
         <div class="container-fluid">
             <div class="row bar">
-                <leftContent :artistName="setArtistName" :trackName="setTracKName" 
-                    :currentTrackArtwork="setArtworkPath"/>
-
-                <centerContent  
-                    @shuffleSongs="onShuffle" @nextSong="onNextSong" @prevSong="onPrevSong" @mouseDown="onMouseDown" 
-                    @mouseMove="onMouseMovePlaybackBar" @mouseUp="onMouseUpPlaybackBar" 
-                    :playing="playing" :repeat="repeat" :shuffle="shuffle" :currentTime="currentTime" 
-                    :remainingTime="remainingTime" :duration="duration" :progress="progress"
-                />
-
-                <rightContent :volume="volume" :mute="mute" @muteSong="onMute" @mouseDownVolumeBar="onMouseDown" 
-                    @mouseMoveVolumeBar="onMouseMoveVolumeBar" @mouseUpVolumeBar="onMouseUpVolumeBar"
-                />
+                <leftContent />
+                <centerContent />
+                <rightContent />
             </div>
 
-            <div v-if="currentTrack">
+            <div v-if="this.$store.getters.getCurrentTrack">
                 <audio ref="audioElement" :src="setAudioSource" preload="auto"
                     @loadeddata="handleLoad" @timeupdate="handleUpdateTimeProgressBar"  
                     @volumechange="handleUpdateVolumeProgressBar" @ended="onNextSong"
@@ -47,152 +37,52 @@ export default {
         centerContent,
         rightContent
     },
-    props: {
-        currentPlaylist: {
-            type: Array,
-            default: undefined
-        },
-        currentTrack: {
-            type: Object,
-            default: undefined
-        },
-        artwork: {
-            type: String,
-            default: ''
-        }
-    },
-    data() {
-        return {
-            audioElement: undefined,
-            shuffledPlaylist: [],
-            playing: true,
-            currentTime: '0:00',
-            progress: '0%',
-            remainingTime: '',
-            volume: '100%',
-            mouseDown: false,
-            duration: 0,
-            currentTrackIndex: 0,
-            autoPlay: false,
-            repeat: false,
-            mute: false,
-            shuffle: false
-        };
-    },
     computed: {
         setAudioSource(){
             const currentTrack = this.$store.getters.getCurrentTrack;
             return (currentTrack)?currentTrack.preview_url:'';
-        },
-        setArtistName(){
-            const currentTrack = this.$store.getters.getCurrentTrack;
-            return (currentTrack)?currentTrack.artists[0].name:'';
-        },
-        setTracKName(){
-            const currentTrack = this.$store.getters.getCurrentTrack;
-            return (currentTrack)?currentTrack.name:'';
-        },
-        setArtworkPath(){
-            const currentArtwork = this.$store.getters.getCurrentArtwork;
-            return (currentArtwork)?currentArtwork:'';
         }
     },
     methods: {
-        onMute(){
-            this.$store.dispatch('muteSong', !this.$store.getters.isMute);
-        },
-        onShuffle(){
-            //this.shuffle = !this.shuffle;
-            this.$store.dispatch('setSuffle', {
-                shuffle: !this.$store.getters.isShuffle
-            });
-        },
         onNextSong(){
-            const playlistSize = this.currentPlaylist.length - 1;
-            
-            if(this.repeat){
-                this.audioElement.currentTime = 0;
-                this.onPlay();
-                return;
-            }
-            else if(this.currentTrackIndex == playlistSize ) {
-                this.currentTrackIndex = 0; // go back to start 
-            }
-            else{
-                this.currentTrackIndex += 1;
-            }
-        
-            const nextTrack = this.shuffle? this.shuffledPlaylist[this.currentTrackIndex] : 
-                this.currentPlaylist[this.currentTrackIndex];
-            // pause the song first
-            this.onPause();
-            this.autoPlay = true;
-            this.$emit('nextSong', nextTrack);
-        },
-        onPrevSong(){
-            if(this.currentTrackIndex == 0 || this.audioElement.currentTime >= 2){
-                this.audioElement.currentTime = 0;
-            }else{
-                this.currentTrackIndex -= 1;
-
-                const nextTrack = this.currentPlaylist[this.currentTrackIndex];
-                this.onPause();
-                this.autoPlay = true;
-                this.$emit('nextSong', nextTrack);
-            }
-        },
-        setTrack(nextTrack){
-            this.currentTrack = nextTrack;
-        },
-        onMouseDown(val){
-            // val will be true since its emitted from the "centerContain" child
-            this.mouseDown = val; 
-        },
-        onMouseMovePlaybackBar(seconds){
-            if(this.mouseDown){
-                // set time of song depending on posistion of mouse
-                this.audioElement.currentTime = seconds;
-            }
-        },
-        onMouseUpPlaybackBar(seconds){
-            this.audioElement.currentTime = seconds;
-            // this.mouseDown = false;
-        },
-        onMouseMoveVolumeBar(percentage){
-            if(this.mouseDown){
-                this.audioElement.volume = percentage;
-            }
-        },
-        onMouseUpVolumeBar(percentage){
-            this.audioElement.volume = percentage;
-            // this.mouseDown = false;
+            this.$store.dispatch('setNextTrack');
         },
         handleLoad(){
             //// maybe here figure out the current playlist??
-            if(this.audioElement.readyState >= 2 ){
-                if(this.autoPlay) {
-                    this.onPlay();
+            if(this.$store.getters.getAudioElement.readyState >= 2 ){
+                if(this.$store.getters.isAutoPlay) {
+                    this.$store.dispatch('playPauseSong', {
+                        playing: false,
+                        playSong: true
+                    });
                 }
-                this.duration = this.audioElement.duration;
-                this.remainingTime = helpers.formatTime(this.duration);
-                if(this.autoPlay) {
-                    this.audioElement.play();
-                }
+
+                this.$store.dispatch('setDuration', this.$store.getters.getAudioElement.duration);
+                this.$store.dispatch('setRemainingTime', helpers.formatTime(this.$store.getters.getDuration));
+               
             } else {
                 throw new Error('Failed to load sound file');
             }
         },
         handleUpdateTimeProgressBar(){
-            if(this.audioElement.duration){
-                this.currentTime = helpers.formatTime(this.audioElement.currentTime);
-                this.remainingTime = helpers.formatTime(this.audioElement.duration - this.audioElement.currentTime);
+            if(this.$store.getters.getAudioElement.duration){
+    
+                this.$store.dispatch('setCurrentTime', 
+                    helpers.formatTime(this.$store.getters.getAudioElement.currentTime)
+                );
+                this.$store.dispatch('setRemainingTime', 
+                    helpers.formatTime(
+                        this.$store.getters.getAudioElement.duration - 
+                        this.$store.getters.getAudioElement.currentTime
+                    )
+                );
 
-                const progress = this.audioElement.currentTime / this.audioElement.duration * 100;
-                this.progress = `${progress}%`;
+                const progress = this.$store.getters.getAudioElement.currentTime / this.$store.getters.getAudioElement.duration * 100;
+                this.$store.dispatch('setProgress', `${progress}%`);
             }
         },
         handleUpdateVolumeProgressBar(){
-            this.volume = `${this.audioElement.volume * 100}%`;
+            this.$store.dispatch('setVolume', `${this.$store.getters.getAudioElement.volume * 100}%`);
         },
         resetMouseDown(){
             this.$store.dispatch('setMouseDown', false);
