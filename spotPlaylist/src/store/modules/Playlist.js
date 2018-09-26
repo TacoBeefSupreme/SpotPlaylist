@@ -197,8 +197,9 @@ const actions = {
 
 const mutations = {
   SET_PLAYLIST: (state, payload) => {
-    let topTracksOfArtist = payload;
-    state.playlist = topTracksOfArtist;
+    if (state.playlist != payload) {
+      state.playlist = payload;
+    }
   },
   SET_CURRENT_TRACK: (state, payload) => {
     state.currentTrack = payload;

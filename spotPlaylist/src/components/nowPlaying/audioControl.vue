@@ -87,12 +87,16 @@ export default {
             this.$store.dispatch('repeatSong', !this.$store.getters.isRepeat);
         },
         onShuffle(){
-            this.$store.dispatch('setSuffle', {
-                shuffle: !this.$store.getters.isShuffle
-            });
+            if(this.$store.getters.getCurrentPlaylist){
+                this.$store.dispatch('setSuffle', {
+                    shuffle: !this.$store.getters.isShuffle
+                });
+            }
         },
         onNext(){
-            this.$store.dispatch('setNextTrack');
+            if(this.$store.getters.getCurrentPlaylist){
+                this.$store.dispatch('setNextTrack');
+            }
         },
 
         onPrev(){

@@ -39,12 +39,17 @@ router.get('/album', (req, res) => {
     });
 });
 
-router.get('/tracks', (req, res) => {
+router.get('/tracks/:name', (req, res) => {
+  let artistName;
+  if (req.params.name) {
+    artistName = req.params.name;
+  }
+
   spotifyWebApi
     .clientCredentialsGrant()
     .then(function(data) {
       spotifyWebApi.setAccessToken(data.body['access_token']);
-      return spotifyWebApi.searchArtists('michael jackson', { limit: 10 });
+      return spotifyWebApi.searchArtists(artistName, { limit: 10 });
     })
     .then(function(data) {
       const artistId = data.body.artists.items[0].id;

@@ -24,8 +24,8 @@ export default {
     }).then(response => response.json());
   },
 
-  fetchTopTracks() {
-    return fetch(`${ROOT_URL}/api/tracks`, {
+  fetchTopTracks(artist) {
+    return fetch(`${ROOT_URL}/api/tracks/${artist}`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
