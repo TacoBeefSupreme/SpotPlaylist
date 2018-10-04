@@ -19,31 +19,21 @@ import api from '../../api';
 
 export default {
     name: 'searchBar',
-    data() {
-        return{
+    data: function(){
+        return {
             searchQuery: ''
         };
     },
     methods: {
         async makeApiRequest(){
-            let artistIdResponse = undefined;
-            let topTracksResponse = undefined;
-            try {
-                artistIdResponse = await api.fetchArtistId(this.searchQuery); 
-                topTracksResponse = await api.fetchTopTracks(artistIdResponse.data);
-            } catch(err) {
-                // eslint-disable-next-line
-                console.log(err.message);
-            }
-            this.$store.dispatch('setPlaylist', topTracksResponse.data);
+        // look into SEARCH STATE "searchArtistTopTrack" action for the comment below 
+
+        /// move this to table componet, set it first track in table component later on
+        // maybe table component should have its own playlist and current track state??
             
-            /// move this table componet, set it first track in table component later on
-            // maybe table component should have its own playlist and current track state?? 
-            this.$store.dispatch('setCurrentTrack', {
-                currentTrack: this.$store.getters.getCurrentPlaylist[0],
-                currentArtwork:  this.$store.getters.getCurrentPlaylist[0].album.images[0].url,
-                currentTrackIndex: 0
-            });      
+            await this.$store.dispatch('searchArtistId', this.searchQuery);
+            this.$store.dispatch('searchArtistTopTrack');
+                
         }
     }
 }
