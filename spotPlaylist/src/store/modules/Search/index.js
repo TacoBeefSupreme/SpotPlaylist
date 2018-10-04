@@ -1,19 +1,14 @@
 import api from '../../../api';
 
 const state = {
-  searchQuery: '',
   artistId: ''
 };
 
 const getters = {
-  getSearchQuery: state => state.query,
   getArtistId: state => state.artistId
 };
 
 const actions = {
-  setSearchQuery: ({ commit }, payload) => {
-    commit('SET_SEARCH_QUERY', payload);
-  },
   async searchArtistId({ commit }, payload) {
     let artistIdResponse = undefined;
     try {
@@ -50,9 +45,6 @@ const actions = {
 };
 
 const mutations = {
-  SET_SEARCH_QUERY: (state, payload) => {
-    state.searchQuery = payload;
-  },
   SET_ARTIST_ID: (state, payload) => {
     state.artistId = payload;
   }
