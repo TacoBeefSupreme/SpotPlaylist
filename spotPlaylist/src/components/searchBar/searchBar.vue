@@ -26,7 +26,14 @@ export default {
     },
     methods: {
         async makeApiRequest(){
-            const topTracksResponse = await api.fetchTopTracks(this.searchQuery);
+            let artistIdResponse = undefined;
+            let topTracksResponse = undefined;
+            try {
+                artistIdResponse = await api.fetchArtistId(this.searchQuery); 
+                topTracksResponse = await api.fetchTopTracks(artistIdResponse.data);
+            } catch(err) {
+                console.log(err.message);
+            }
             this.$store.dispatch('setPlaylist', topTracksResponse.data);
             
             /// move this table componet, set it first track in table component later on
