@@ -32,6 +32,7 @@ export default {
                 artistIdResponse = await api.fetchArtistId(this.searchQuery); 
                 topTracksResponse = await api.fetchTopTracks(artistIdResponse.data);
             } catch(err) {
+                // eslint-disable-next-line
                 console.log(err.message);
             }
             this.$store.dispatch('setPlaylist', topTracksResponse.data);

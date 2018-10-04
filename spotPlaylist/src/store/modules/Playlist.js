@@ -61,12 +61,22 @@ const actions = {
       if (context.getters.getCurrentTrack) {
         // takes care of case when user clicks play button before song is loaded from server
         context.commit('SET_PLAYING', payload.playing);
-        await context.state.audioElement.play();
+        try {
+          await context.state.audioElement.play();
+        } catch (err) {
+          // eslint-disable-next-line
+          console.log(err.message);
+        }
       }
     } else {
       // pause button was clicked
       context.commit('SET_PLAYING', payload.playing);
-      await context.state.audioElement.pause();
+      try {
+        await context.state.audioElement.pause();
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log(err.message);
+      }
     }
   },
   repeatSong: (context, payload) => {
