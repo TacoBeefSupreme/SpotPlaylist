@@ -9,7 +9,6 @@
 <script>
 import nowPlayingBar from './components/nowPlaying/nowPlayingBar';
 import searchBar from './components/searchBar/searchBar';
-import api from './api';
 
 export default {
   name: 'App',
