@@ -4,16 +4,17 @@
             <input class="form-control" v-model="searchQuery" 
                 type="text" @input="onInputChange"
                 placeholder="Search by Artist" 
-                 @keydown.up="up" @keydown.down="down"
+                 @keydown.up="up" @keydown.down="down" @keydown.enter="itemClicked(selectedIndex)"
             /> 
         </div>
             
         <div v-if="visible">
             <ul class="list-group" ref="optionsList">
-                <li class="list-group-item list-group-item-action" v-for="(artist,index) in filteredArtists"
-                    :key="artist['id']" 
+                <li class="list-group-item" v-for="(artist,index) in filteredArtists"
+                    :key="artist['id']" @mouseover="selectedIndex = index"
+                    :class="{ 'active': (selectedIndex == index)} "
                     v-text="artist['name']"
-                    @click="itemClicked(index)"
+                    @click="itemClicked(selectedIndex)"
                 ></li>
             </ul>
         </div>
@@ -32,8 +33,7 @@ export default {
             searchQuery: '',
             selectedIndex: 0,
             itemHeight: 36,
-            visible: true,
-        
+            visible: true
         };
     },
     computed: {
@@ -41,13 +41,15 @@ export default {
             if(this.searchQuery === '' || this.searchQuery === undefined || this.$store.getters.getArtists === undefined ){
                 return;
             }
-            return this.$store.getters.getArtists.filter(item => item.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+            const filteredArtistList =  this.$store.getters.getArtists.filter(item => item.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+            this.$store.dispatch('setFilteredArist', filteredArtistList);
+            return filteredArtistList;
         }
     },
     methods: {
         // debounce takes the inner function and calls it/runs it every 250 miliseconds, 
         // comment out to see difference
-        makeApiRequest: _.debounce(function() {  
+        searchApiRequest: _.debounce(function() {  
             if(this.searchQuery === ''){
                 return;
             }    
@@ -58,36 +60,37 @@ export default {
                 return;
             }
             
-            this.makeApiRequest();
+            this.searchApiRequest();
 
             this.visible = true;         
         },
         itemClicked(index){
             const selectedArtistName = this.$store.getters.getArtists[index].name;
             this.visible = false;
-            this.selectedIndex = index;
+            this.selectedIndex = 0;
             this.searchQuery = selectedArtistName;
           
             this.$store.dispatch('setSelectedArtistId', this.$store.getters.getArtists[index].id);
             this.$store.dispatch('searchArtistTopTrack');
         },
         up() {
-            console.log('called');
-            if (this.selectedIndex == 0) {
+            if (this.selectedIndex == 0 || this.selectedIndex === null) {
                 return;
             }
             this.selectedIndex -= 1;
             this.scrollToItem();
         },
         down(){
-            if(this.selectedIndex >= this.$store.getters.getArtists - 1){
+            if(this.selectedIndex >= this.$store.getters.getArtists.length - 1 || !this.visible){
                 return;
             }
             this.selectedIndex += 1;
             this.scrollToItem();
         },
         scrollToItem(){
-            this.$refs.optionsList.scrollTop = this.selectedIndex * this.itemHeight; 
+            if(this.visible){
+                this.$refs.optionsList.scrollTop = this.selectedIndex * this.itemHeight; 
+            }
         }
     }
 }
@@ -105,8 +108,8 @@ export default {
         margin-bottom: 5px;
     }
 
-
     .list-group {
+        margin-top: 3px; 
         margin-left: 19px;
         list-style-type: none;
         overflow-y: scroll;
@@ -116,10 +119,18 @@ export default {
     .list-group-item {
         height: 36px;
         border: none;
+        cursor: pointer;
     }
 
-    .list-group-item:hover {
-        cursor: pointer;
+    .list-group-item:not(.active):hover {
+        color: rgb(70, 70, 77);
+        font-weight: 500;
+    }
+
+    .active {
+        background-color: rgb(238, 238, 238);
+        color: rgb(70, 70, 77);
+        font-weight: 500;
     }
 
 </style>

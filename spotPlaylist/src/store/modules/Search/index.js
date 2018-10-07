@@ -47,6 +47,9 @@ const actions = {
   },
   setSelectedArtistId: ({ commit }, payload) => {
     commit('SET_SELECTED_ARTIST_ID', payload);
+  },
+  setFilteredArist: ({ commit }, payload) => {
+    commit('SET_ARTISTS_SEARCH_QUERY', payload);
   }
 };
 
