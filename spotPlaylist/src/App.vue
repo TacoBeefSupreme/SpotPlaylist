@@ -1,6 +1,6 @@
 <template>
   <div class=".container " >
-    <searchBar />
+    <navBar />
     <nowPlayingBar />
   </div>
    
@@ -8,13 +8,13 @@
 
 <script>
 import nowPlayingBar from './components/nowPlaying/nowPlayingBar';
-import searchBar from './components/searchBar/searchBar';
+import navBar from './components/navBar/navBar.vue';
 
 export default {
   name: 'App',
   components: {
     nowPlayingBar,
-    searchBar
+    navBar
   },
   // async mounted(){
   //   const topTracksResponse = await api.fetchTopTracks('eyasu');
@@ -29,9 +29,7 @@ export default {
 </script>
 
 <style scoped>
-  .container{
-    background-color: rgb(246,246,246);
-  }
+
 
 </style>
 

@@ -25,7 +25,8 @@ exports.getArtistWithName = (req, res, next) => {
   spotifyWebApi
     .searchArtists(artistName, { limit: 10 })
     .then(data => {
-      const artistId = data.body.artists.items[0].id;
+      //const artistId = data.body.artists.items[0].id;
+      const artistId = data.body.artists.items;
       res.status(200).json({
         confirmation: 'success',
         data: artistId
