@@ -5,13 +5,13 @@
                 <img class="artwork" v-bind:src="setArtworkPath"/>        
             </div>
 
-            <div class="float-right">
-                <div class="trackName">
-                    <span>{{ setTracKName }}</span>
+            <div class="trackData">
+                <div class="trackName text-truncate">
+                    <span class="d-inline-block text-truncate">{{ setTracKName }}</span>
                 </div>
         
                 <div class="artistName">
-                    <span>{{ setArtistName }}</span>
+                    <span class="d-inline-block text-truncate">{{ setArtistName }}</span>
                 </div>
             </div>
         </div>
@@ -46,6 +46,9 @@ export default {
         /* float: left; */
         background-size: cover;
     }
+    .float-right {
+        overflow: hidden;
+    }
     .trackData {
         display: table;
         overflow: hidden;
@@ -57,8 +60,8 @@ export default {
         /* margin: 2px 0; */
         width: 100%;
         font-size: 12px;
-        overflow: hidden;
-        max-width: 300px;
+        /* overflow: hidden; */
+        max-width: 150px;
         max-height: 20px;
     }
 
@@ -67,7 +70,7 @@ export default {
         font-size: 12px;
         color: rgb(123,123,123);
         font-size: 9px;
-        max-width: 50px;
+        max-width: 80px;
         max-height: 27px;
     }
 </style>

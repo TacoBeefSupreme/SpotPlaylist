@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        Hello
+        <h5>Playlist Name</h5>
     </div>
 </template>
 
@@ -11,5 +11,9 @@ export default {
 </script>
 
 <style scoped>
+    .container {
+        margin-top: 40px;
+        
+    }
 
 </style>

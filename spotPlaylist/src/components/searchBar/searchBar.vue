@@ -1,5 +1,5 @@
 <template>
-    <div class="input">  
+    <div class="container mx-auto">  
         <div class="form-group">
             <input class="form-control" v-model="searchQuery" 
                 type="text" @input="onInputChange"
@@ -98,15 +98,9 @@ export default {
 </script>
 
 <style scoped>
-    div {
-        display: contents;        
-    }
-    input {
-        width: 97%;
+    .container {
+        width: 50%;
         margin-top: 20px;
-        margin-left: 20px;
-        margin-right: 20px;
-        margin-bottom: 5px;
     }
 
     .list-group {

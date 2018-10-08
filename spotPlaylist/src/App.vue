@@ -1,10 +1,8 @@
 <template>
   <div class=".container " >
     <navBar />
-    <div class="container">
-       <searchBar />
-    </div>
     
+    <searchBar />
     <playlistTable />
     
     <nowPlayingBar />
