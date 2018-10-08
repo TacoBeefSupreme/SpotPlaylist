@@ -1,16 +1,18 @@
 <template>
-    <div class="col">
-        <div class="content">
-            <img class="artwork" v-bind:src="setArtworkPath"/>        
-        </div>
-
-        <div class="trackData">
-            <div class="trackName">
-                <span>{{ setTracKName }}</span>
+    <div class="col-3">
+        <div class="row">
+            <div class="content float-left">
+                <img class="artwork" v-bind:src="setArtworkPath"/>        
             </div>
-    
-            <div class="artistName">
-                <span>{{ setArtistName }}</span>
+
+            <div class="float-right">
+                <div class="trackName">
+                    <span>{{ setTracKName }}</span>
+                </div>
+        
+                <div class="artistName">
+                    <span>{{ setArtistName }}</span>
+                </div>
             </div>
         </div>
     </div>
@@ -41,7 +43,7 @@ export default {
         height: 55px;
         max-width: 55px;
         margin-right: 15px;
-        float: left;
+        /* float: left; */
         background-size: cover;
     }
     .trackData {
