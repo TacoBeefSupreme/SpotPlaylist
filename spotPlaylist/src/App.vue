@@ -4,6 +4,9 @@
     <div class="container">
        <searchBar />
     </div>
+    
+    <playlistTable />
+    
     <nowPlayingBar />
   </div>
    
@@ -13,13 +16,15 @@
 import nowPlayingBar from './components/nowPlaying/nowPlayingBar';
 import navBar from './components/navBar/navBar.vue';
 import searchBar from './components/searchBar/searchBar';
+import playlistTable from './components/playlistTable/playlistTable';
 
 export default {
   name: 'App',
   components: {
     nowPlayingBar,
     navBar,
-    searchBar
+    searchBar,
+    playlistTable
   }
 }
 </script>
