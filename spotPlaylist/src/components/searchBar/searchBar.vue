@@ -6,6 +6,7 @@
                 placeholder="Search by Artist" 
                  @keydown.up="up" @keydown.down="down" 
                  @keydown.enter="itemClicked(selectedIndex)"
+                 spellcheck="false"
             /> 
         </div>
             

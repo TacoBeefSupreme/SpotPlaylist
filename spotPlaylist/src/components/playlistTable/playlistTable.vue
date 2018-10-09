@@ -1,6 +1,6 @@
 <template>
     <div class="container mx-auto" v-if="!isSearchSuggestionVisible">
-        <h5>Playlist Name</h5><span>10 songs</span>
+        <h5>Playlist Name</h5><span>{{ numberOfSongs }}</span>
         <table class="table table-hover table-sm ">
             <thead>
                 <tr>
@@ -11,19 +11,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr v-for="(track, index) in currentlySelectedPlaylist" 
+                    :key="track.id"
+                    @click="onClickTrack(index)"
+                    :class="{ 'table-active': (trackNameWithSelectedIndex(index) === index)} "
+                >
                     <td></td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                
+                    <td class="trackTitle text-truncate">{{ track.name }}</td>
+                    <td class="trackMeta text-truncate">{{ track.artists[0].name }}</td>
+                    <td class="trackMeta text-truncate">{{ track.album.name }}</td>
+                </tr>    
             </tbody>
         </table>
     </div>
@@ -35,7 +32,31 @@ export default {
     computed: {
         isSearchSuggestionVisible() {
             return this.$store.getters.isSuggestionDivVisible;
+        },
+        currentlySelectedPlaylist() {
+            if(this.$store.getters.getCurrentPlaylist !== undefined){
+                return this.$store.getters.getCurrentPlaylist;
+            }
+        },
+        numberOfSongs() {
+            return this.currentlySelectedPlaylist ? `${currentlySelectedPlaylist.length} songs`: '';           
         }
+    },
+    methods: {
+        onClickTrack(index) {
+            const track = {
+                currentTrack: this.currentlySelectedPlaylist[index],
+                currentArtwork: this.currentlySelectedPlaylist[index].album.images[0].url,
+                currentTrackIndex: index
+            };
+            this.$store.dispatch('setAutoPlay', true);
+            this.$store.dispatch('setCurrentTrack', track);
+        },
+        trackNameWithSelectedIndex(index) {
+            const currentTrackIndex = this.currentlySelectedPlaylist.findIndex((track) => track.name === this.$store.getters.getCurrentTrack.name);
+            return currentTrackIndex;
+        }
+        
     }
 }
 </script>
@@ -52,6 +73,14 @@ export default {
 
     th {
         font-weight: 600;
+    }
+
+    td {
+        font-size: 14px;
+    }
+
+    .trackTitle {
+        width: 40%;
     }
 
 </style>
