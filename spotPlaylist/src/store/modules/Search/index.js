@@ -1,15 +1,18 @@
 import api from '../../../api';
+import _ from 'lodash';
 
 const state = {
   selectedArtistId: '',
   artists: [],
-  suggestionsDivVisible: false
+  suggestionsDivVisible: false,
+  searchedPlaylist: []
 };
 
 const getters = {
   getArtistId: state => state.selectedArtistId,
   getArtists: state => state.artists,
-  isSuggestionDivVisible: state => state.suggestionsDivVisible
+  isSuggestionDivVisible: state => state.suggestionsDivVisible,
+  getSearchedPlaylist: state => state.getSearchedPlaylist
 };
 
 const actions = {
@@ -32,7 +35,7 @@ const actions = {
       });
   },
 
-  async searchArtistTopTrack({ dispatch, rootGetters, getters }) {
+  async searchArtistTopTrack({ dispatch, getters }) {
     let topTracksResponse = undefined;
     try {
       topTracksResponse = await api.fetchTopTracks(getters.getArtistId);
@@ -41,19 +44,19 @@ const actions = {
       console.log(err.message);
     }
 
-    dispatch('setPlaylist', topTracksResponse.data, { root: true });
+    dispatch('setPlaylist', topTracksResponse.data);
 
     /// move this to table componet, set it first track in table component later on
     // maybe table component should have its own playlist and current track state??
-    dispatch(
-      'setCurrentTrack',
-      {
-        currentTrack: rootGetters.getCurrentPlaylist[0],
-        currentArtwork: rootGetters.getCurrentPlaylist[0].album.images[0].url,
-        currentTrackIndex: 0
-      },
-      { root: true }
-    );
+    // dispatch(
+    //   'setCurrentTrack',
+    //   {
+    //     currentTrack: rootGetters.getCurrentPlaylist[0],
+    //     currentArtwork: rootGetters.getCurrentPlaylist[0].album.images[0].url,
+    //     currentTrackIndex: 0
+    //   },
+    //   { root: true }
+    // );
   },
   setSelectedArtistId: ({ commit }, payload) => {
     commit('SET_SELECTED_ARTIST_ID', payload);
@@ -63,6 +66,9 @@ const actions = {
   },
   setSuggestionsDivVisiblilty: ({ commit }, payload) => {
     commit('SET_SUGGESTIONS_DIV_VISIBILTY', payload);
+  },
+  setSearchedPlaylist: ({ commit }, payload) => {
+    commit('SET_SEARCHED_PLAYLIST', payload);
   }
 };
 
@@ -75,6 +81,9 @@ const mutations = {
   },
   SET_SUGGESTIONS_DIV_VISIBILTY: (state, payload) => {
     state.suggestionsDivVisible = payload;
+  },
+  SET_SEARCHED_PLAYLIST: (state, payload) => {
+    state.searchedPlaylist = payload;
   }
 };
 

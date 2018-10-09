@@ -1,10 +1,11 @@
 <template>
     <div class="container mx-auto" v-if="!isSearchSuggestionVisible && isCurrentSelectedPlaylist">
         <h5>Playlist Name</h5><span>{{ numberOfSongs }}</span>
-        <table class="table table-hover table-sm ">
+        <table class="table table-hover table-sm">
             <thead>
                 <tr>
-                    <th></th>
+                    <th>
+                    </th>
                     <th>Title</th>
                     <th>Artist</th>
                     <th>Album</th>
@@ -14,10 +15,10 @@
                 <tr v-for="(track, index) in currentlySelectedPlaylist" 
                     :key="track.id"
                     @click="onClickTrack(index)"
-                    :class="{ 'table-active': (trackNameWithSelectedIndex() === index)} "
+                    :class="{ 'table-active': (trackNameWithSelectedIndex() === index )} "
                 >
-                    <td></td>
-                    <td class="trackTitle text-truncate">{{ track.name }}</td>
+                    <td> <img class="artwork" :src="track.album.images[0].url"/>   </td>
+                    <td class="trackTitle text-truncate ">{{ track.name }}</td>
                     <td class="trackMeta text-truncate">{{ track.artists[0].name }}</td>
                     <td class="trackMeta text-truncate">{{ track.album.name }}</td>
                 </tr>    
@@ -27,16 +28,21 @@
 </template>
 
 <script>
+
 export default {
     name: 'playlistTable',
+    data: function(){
+        return {
+            trackCliked: false
+        };
+    },
     computed: {
         isSearchSuggestionVisible() {
             return this.$store.getters.isSuggestionDivVisible;
         },
         currentlySelectedPlaylist() {
-            if(this.$store.getters.getCurrentPlaylist !== undefined){
-                return this.$store.getters.getCurrentPlaylist;
-            }
+            const currentPlayingPlaylist = this.$store.getters.getCurrentPlaylist;
+            return currentPlayingPlaylist !== undefined ? this.$store.getters.getCurrentPlaylist : null;
         },
         isCurrentSelectedPlaylist(){
             return this.$store.getters.getCurrentPlaylist ? true: false;
@@ -54,12 +60,14 @@ export default {
             };
             this.$store.dispatch('setAutoPlay', true);
             this.$store.dispatch('setCurrentTrack', track);
+            this.trackCliked = !this.trackCliked;
         },
         trackNameWithSelectedIndex() {
-            const currentTrackIndex = this.currentlySelectedPlaylist.findIndex((track) => track.name === this.$store.getters.getCurrentTrack.name);
-            return currentTrackIndex;
+            if(this.$store.getters.getCurrentTrack){
+                const currentTrackIndex = this.currentlySelectedPlaylist.findIndex((track) => track.name === this.$store.getters.getCurrentTrack.name);
+                return currentTrackIndex;
+            }
         }
-        
     }
 }
 </script>
@@ -80,10 +88,18 @@ export default {
 
     td {
         font-size: 14px;
+        vertical-align: middle;
     }
 
     .trackTitle {
         width: 40%;
     }
 
+    .artwork {
+        height: 55px;
+        max-width: 55px;
+        margin-right: 15px;
+        /* float: left; */
+        background-size: cover;
+    }
 </style>
