@@ -27,9 +27,13 @@ exports.getArtistWithName = (req, res, next) => {
     .then(data => {
       //const artistId = data.body.artists.items[0].id;
       const artistId = data.body.artists.items;
+      const statusCode = data.statusCode;
       res.status(200).json({
         confirmation: 'success',
-        data: artistId
+        data: {
+          items: artistId,
+          statusCode
+        }
       });
     })
     .catch(err => {

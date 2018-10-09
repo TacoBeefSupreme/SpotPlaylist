@@ -2,26 +2,36 @@ import api from '../../../api';
 
 const state = {
   selectedArtistId: '',
-  artists: []
+  artists: [],
+  suggestionsDivVisible: true
 };
 
 const getters = {
   getArtistId: state => state.selectedArtistId,
-  getArtists: state => state.artists
+  getArtists: state => state.artists,
+  isSuggestionDivVisible: state => state.suggestionsDivVisible
 };
 
 const actions = {
-  async searchArtistId({ commit }, payload) {
-    let artistIdResponse = undefined;
-    try {
-      artistIdResponse = await api.fetchArtistId(payload);
-    } catch (err) {
-      // eslint-disable-next-line
-      console.log(err.message);
-    }
-    //commit('SET_SELECTED_ARTIST_ID', artistIdResponse.data);
-    commit('SET_ARTISTS_SEARCH_QUERY', artistIdResponse.data);
+  searchArtistId({ commit, getters }, payload) {
+    api
+      .fetchArtistId(payload)
+      .then(data => {
+        const artistList = data.data.items;
+        const { statusCode } = data.data;
+        if (statusCode === 304 || artistList.length == 0) {
+          commit('SET_ARTISTS_SEARCH_QUERY', getters.getArtists);
+        } else {
+          commit('SET_ARTISTS_SEARCH_QUERY', artistList);
+        }
+      })
+      .catch(err => {
+        // eslint-disable-next-line
+        console.log(err.message);
+        commit('SET_SUGGESTIONS_DIV_VISIBILTY', false);
+      });
   },
+
   async searchArtistTopTrack({ dispatch, rootGetters, getters }) {
     let topTracksResponse = undefined;
     try {
@@ -50,6 +60,9 @@ const actions = {
   },
   setFilteredArist: ({ commit }, payload) => {
     commit('SET_ARTISTS_SEARCH_QUERY', payload);
+  },
+  setSuggestionsDivVisiblilty: ({ commit }, payload) => {
+    commit('SET_SUGGESTIONS_DIV_VISIBILTY', payload);
   }
 };
 
@@ -59,6 +72,9 @@ const mutations = {
   },
   SET_ARTISTS_SEARCH_QUERY: (state, payload) => {
     state.artists = payload;
+  },
+  SET_SUGGESTIONS_DIV_VISIBILTY: (state, payload) => {
+    state.suggestionsDivVisible = payload;
   }
 };
 

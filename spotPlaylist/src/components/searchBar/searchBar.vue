@@ -33,18 +33,21 @@ export default {
         return {
             searchQuery: '',
             selectedIndex: 0,
-            itemHeight: 36,
-            visible: true
+            itemHeight: 36
         };
     },
     computed: {
         filteredArtists() {
-            if(this.searchQuery === '' || this.searchQuery === undefined || this.$store.getters.getArtists === undefined ){
+            if(this.searchQuery === '' || this.searchQuery === undefined || this.$store.getters.getArtists === undefined){
+                this.$store.dispatch('setSuggestionsDivVisiblilty', false);  
                 return;
             }
             const filteredArtistList =  this.$store.getters.getArtists.filter(item => item.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
             this.$store.dispatch('setFilteredArist', filteredArtistList);
             return filteredArtistList;
+        },
+        visible() {
+            return this.$store.getters.isSuggestionDivVisible;
         }
     },
     methods: {
@@ -63,11 +66,12 @@ export default {
             
             this.searchApiRequest();
 
-            this.visible = true;         
+            this.$store.dispatch('setSuggestionsDivVisiblilty', true);        
         },
         itemClicked(index){
             const selectedArtistName = this.$store.getters.getArtists[index].name;
-            this.visible = false;
+            
+            this.$store.dispatch('setSuggestionsDivVisiblilty', false);   
             this.selectedIndex = 0;
             this.searchQuery = selectedArtistName;
           
