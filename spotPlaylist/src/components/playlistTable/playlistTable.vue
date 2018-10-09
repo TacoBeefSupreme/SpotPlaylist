@@ -14,7 +14,7 @@
                 <tr v-for="(track, index) in currentlySelectedPlaylist" 
                     :key="track.id"
                     @click="onClickTrack(index)"
-                    :class="{ 'table-active': (trackNameWithSelectedIndex(index) === index)} "
+                    :class="{ 'table-active': (trackNameWithSelectedIndex() === index)} "
                 >
                     <td></td>
                     <td class="trackTitle text-truncate">{{ track.name }}</td>
@@ -39,7 +39,7 @@ export default {
             }
         },
         numberOfSongs() {
-            return this.currentlySelectedPlaylist ? `${currentlySelectedPlaylist.length} songs`: '';           
+            return this.currentlySelectedPlaylist ? `${this.currentlySelectedPlaylist.length} songs`: '';           
         }
     },
     methods: {
@@ -52,7 +52,7 @@ export default {
             this.$store.dispatch('setAutoPlay', true);
             this.$store.dispatch('setCurrentTrack', track);
         },
-        trackNameWithSelectedIndex(index) {
+        trackNameWithSelectedIndex() {
             const currentTrackIndex = this.currentlySelectedPlaylist.findIndex((track) => track.name === this.$store.getters.getCurrentTrack.name);
             return currentTrackIndex;
         }
