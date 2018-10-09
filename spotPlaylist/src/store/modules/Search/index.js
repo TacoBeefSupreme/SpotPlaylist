@@ -44,7 +44,17 @@ const actions = {
       console.log(err.message);
     }
 
-    dispatch('setPlaylist', topTracksResponse.data);
+    dispatch('setPlaylist', topTracksResponse.data)
+      .then(() => {
+        dispatch('setSuffle', {
+          shuffle: true,
+          loadingNewPlaylist: true
+        });
+      })
+      .catch(err => {
+        // eslint-disable-next-line
+        console.log(err.message);
+      });
 
     /// move this to table componet, set it first track in table component later on
     // maybe table component should have its own playlist and current track state??
