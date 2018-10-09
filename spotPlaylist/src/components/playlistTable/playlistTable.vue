@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto" v-if="!isSearchSuggestionVisible">
+    <div class="container mx-auto" v-if="!isSearchSuggestionVisible && isCurrentSelectedPlaylist">
         <h5>Playlist Name</h5><span>{{ numberOfSongs }}</span>
         <table class="table table-hover table-sm ">
             <thead>
@@ -37,6 +37,9 @@ export default {
             if(this.$store.getters.getCurrentPlaylist !== undefined){
                 return this.$store.getters.getCurrentPlaylist;
             }
+        },
+        isCurrentSelectedPlaylist(){
+            return this.$store.getters.getCurrentPlaylist ? true: false;
         },
         numberOfSongs() {
             return this.currentlySelectedPlaylist ? `${this.currentlySelectedPlaylist.length} songs`: '';           

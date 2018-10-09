@@ -3,7 +3,7 @@ import api from '../../../api';
 const state = {
   selectedArtistId: '',
   artists: [],
-  suggestionsDivVisible: true
+  suggestionsDivVisible: false
 };
 
 const getters = {
