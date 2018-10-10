@@ -1,10 +1,12 @@
 <template>
-    <div class="input">  
+    <div class="container mx-auto">  
         <div class="form-group">
             <input class="form-control" v-model="searchQuery" 
                 type="text" @input="onInputChange"
                 placeholder="Search by Artist" 
-                 @keydown.up="up" @keydown.down="down" @keydown.enter="itemClicked(selectedIndex)"
+                 @keydown.up="up" @keydown.down="down" 
+                 @keydown.enter="itemClicked(selectedIndex)"
+                 spellcheck="false"
             /> 
         </div>
             
@@ -32,18 +34,21 @@ export default {
         return {
             searchQuery: '',
             selectedIndex: 0,
-            itemHeight: 36,
-            visible: true
+            itemHeight: 36
         };
     },
     computed: {
         filteredArtists() {
-            if(this.searchQuery === '' || this.searchQuery === undefined || this.$store.getters.getArtists === undefined ){
+            if(this.searchQuery === '' || this.searchQuery === undefined || this.$store.getters.getArtists === undefined){
+                this.$store.dispatch('setSuggestionsDivVisiblilty', false);  
                 return;
             }
             const filteredArtistList =  this.$store.getters.getArtists.filter(item => item.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
             this.$store.dispatch('setFilteredArist', filteredArtistList);
             return filteredArtistList;
+        },
+        visible() {
+            return this.$store.getters.isSuggestionDivVisible;
         }
     },
     methods: {
@@ -62,11 +67,12 @@ export default {
             
             this.searchApiRequest();
 
-            this.visible = true;         
+            this.$store.dispatch('setSuggestionsDivVisiblilty', true);        
         },
         itemClicked(index){
             const selectedArtistName = this.$store.getters.getArtists[index].name;
-            this.visible = false;
+            
+            this.$store.dispatch('setSuggestionsDivVisiblilty', false);   
             this.selectedIndex = 0;
             this.searchQuery = selectedArtistName;
           
@@ -97,15 +103,9 @@ export default {
 </script>
 
 <style scoped>
-    div {
-        display: contents;        
-    }
-    input {
-        width: 97%;
+    .container {
+        width: 50%;
         margin-top: 20px;
-        margin-left: 20px;
-        margin-right: 20px;
-        margin-bottom: 5px;
     }
 
     .list-group {

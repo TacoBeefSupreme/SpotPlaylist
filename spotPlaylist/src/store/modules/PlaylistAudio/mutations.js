@@ -2,9 +2,7 @@ import helpers from '../../../assets/js/helpers';
 
 const mutations = {
   SET_PLAYLIST: (state, payload) => {
-    if (state.playlist != payload) {
-      state.playlist = payload;
-    }
+    state.playlist = payload;
   },
   SET_CURRENT_TRACK: (state, payload) => {
     state.currentTrack = payload;

@@ -1,5 +1,5 @@
 <template>
-    <div class="col contain">
+    <div class="col-3 contain">
         <div class="volumeBar">
 
             <button class="controlButton volume" title="Volume Button" @click="onMute">

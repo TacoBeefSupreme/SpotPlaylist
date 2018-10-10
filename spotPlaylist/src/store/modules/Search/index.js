@@ -1,28 +1,41 @@
 import api from '../../../api';
+import _ from 'lodash';
 
 const state = {
   selectedArtistId: '',
-  artists: []
+  artists: [],
+  suggestionsDivVisible: false,
+  searchedPlaylist: []
 };
 
 const getters = {
   getArtistId: state => state.selectedArtistId,
-  getArtists: state => state.artists
+  getArtists: state => state.artists,
+  isSuggestionDivVisible: state => state.suggestionsDivVisible,
+  getSearchedPlaylist: state => state.getSearchedPlaylist
 };
 
 const actions = {
-  async searchArtistId({ commit }, payload) {
-    let artistIdResponse = undefined;
-    try {
-      artistIdResponse = await api.fetchArtistId(payload);
-    } catch (err) {
-      // eslint-disable-next-line
-      console.log(err.message);
-    }
-    //commit('SET_SELECTED_ARTIST_ID', artistIdResponse.data);
-    commit('SET_ARTISTS_SEARCH_QUERY', artistIdResponse.data);
+  searchArtistId({ commit, getters }, payload) {
+    api
+      .fetchArtistId(payload)
+      .then(data => {
+        const artistList = data.data.items;
+        const { statusCode } = data.data;
+        if (statusCode === 304 || artistList.length == 0) {
+          commit('SET_ARTISTS_SEARCH_QUERY', getters.getArtists);
+        } else {
+          commit('SET_ARTISTS_SEARCH_QUERY', artistList);
+        }
+      })
+      .catch(err => {
+        // eslint-disable-next-line
+        console.log(err.message);
+        commit('SET_SUGGESTIONS_DIV_VISIBILTY', false);
+      });
   },
-  async searchArtistTopTrack({ dispatch, rootGetters, getters }) {
+
+  async searchArtistTopTrack({ dispatch, getters }) {
     let topTracksResponse = undefined;
     try {
       topTracksResponse = await api.fetchTopTracks(getters.getArtistId);
@@ -31,25 +44,41 @@ const actions = {
       console.log(err.message);
     }
 
-    dispatch('setPlaylist', topTracksResponse.data, { root: true });
+    dispatch('setPlaylist', topTracksResponse.data)
+      .then(() => {
+        dispatch('setSuffle', {
+          shuffle: true,
+          loadingNewPlaylist: true
+        });
+      })
+      .catch(err => {
+        // eslint-disable-next-line
+        console.log(err.message);
+      });
 
     /// move this to table componet, set it first track in table component later on
     // maybe table component should have its own playlist and current track state??
-    dispatch(
-      'setCurrentTrack',
-      {
-        currentTrack: rootGetters.getCurrentPlaylist[0],
-        currentArtwork: rootGetters.getCurrentPlaylist[0].album.images[0].url,
-        currentTrackIndex: 0
-      },
-      { root: true }
-    );
+    // dispatch(
+    //   'setCurrentTrack',
+    //   {
+    //     currentTrack: rootGetters.getCurrentPlaylist[0],
+    //     currentArtwork: rootGetters.getCurrentPlaylist[0].album.images[0].url,
+    //     currentTrackIndex: 0
+    //   },
+    //   { root: true }
+    // );
   },
   setSelectedArtistId: ({ commit }, payload) => {
     commit('SET_SELECTED_ARTIST_ID', payload);
   },
   setFilteredArist: ({ commit }, payload) => {
     commit('SET_ARTISTS_SEARCH_QUERY', payload);
+  },
+  setSuggestionsDivVisiblilty: ({ commit }, payload) => {
+    commit('SET_SUGGESTIONS_DIV_VISIBILTY', payload);
+  },
+  setSearchedPlaylist: ({ commit }, payload) => {
+    commit('SET_SEARCHED_PLAYLIST', payload);
   }
 };
 
@@ -59,6 +88,12 @@ const mutations = {
   },
   SET_ARTISTS_SEARCH_QUERY: (state, payload) => {
     state.artists = payload;
+  },
+  SET_SUGGESTIONS_DIV_VISIBILTY: (state, payload) => {
+    state.suggestionsDivVisible = payload;
+  },
+  SET_SEARCHED_PLAYLIST: (state, payload) => {
+    state.searchedPlaylist = payload;
   }
 };
 

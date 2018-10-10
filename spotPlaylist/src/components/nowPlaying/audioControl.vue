@@ -89,7 +89,8 @@ export default {
         onShuffle(){
             if(this.$store.getters.getCurrentPlaylist){
                 this.$store.dispatch('setSuffle', {
-                    shuffle: !this.$store.getters.isShuffle
+                    shuffle: !this.$store.getters.isShuffle,
+                    loadingNewPlaylist: false
                 });
             }
         },

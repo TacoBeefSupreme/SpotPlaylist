@@ -44,18 +44,23 @@ const actions = {
     context.commit('SET_MUTE', payload);
   },
   setSuffle: (context, payload) => {
-    context.commit('SET_SHUFFLE', payload.shuffle);
+    if (!payload.loadingNewPlaylist) {
+      context.commit('SET_SHUFFLE', payload.shuffle);
+    }
 
     if (payload.shuffle) {
       context.commit(
         'SET_SHUFFLED_PLAYLIST',
         context.getters.getCurrentPlaylist.slice()
       );
+
+      const currentTrackIndex = context.getters.getShuffledPlaylist.indexOf(
+        context.getters.getCurrentTrack
+      );
+
       context.dispatch(
         'setCurrentTrackIndex',
-        context.getters.getShuffledPlaylist.indexOf(
-          context.getters.getCurrentTrack
-        )
+        currentTrackIndex >= 0 ? currentTrackIndex : 0
       );
     } else {
       context.dispatch(
