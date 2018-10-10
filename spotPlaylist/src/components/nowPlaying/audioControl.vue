@@ -99,7 +99,6 @@ export default {
                 this.$store.dispatch('setNextTrack');
             }
         },
-
         onPrev(){
             this.$store.dispatch('setPrevTrack');
         },
