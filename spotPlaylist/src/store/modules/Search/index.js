@@ -1,11 +1,13 @@
 import api from '../../../api';
 
 const state = {
-  artistId: ''
+  selectedArtistId: '',
+  artists: []
 };
 
 const getters = {
-  getArtistId: state => state.artistId
+  getArtistId: state => state.selectedArtistId,
+  getArtists: state => state.artists
 };
 
 const actions = {
@@ -17,7 +19,8 @@ const actions = {
       // eslint-disable-next-line
       console.log(err.message);
     }
-    commit('SET_ARTIST_ID', artistIdResponse.data);
+    //commit('SET_SELECTED_ARTIST_ID', artistIdResponse.data);
+    commit('SET_ARTISTS_SEARCH_QUERY', artistIdResponse.data);
   },
   async searchArtistTopTrack({ dispatch, rootGetters, getters }) {
     let topTracksResponse = undefined;
@@ -41,12 +44,21 @@ const actions = {
       },
       { root: true }
     );
+  },
+  setSelectedArtistId: ({ commit }, payload) => {
+    commit('SET_SELECTED_ARTIST_ID', payload);
+  },
+  setFilteredArist: ({ commit }, payload) => {
+    commit('SET_ARTISTS_SEARCH_QUERY', payload);
   }
 };
 
 const mutations = {
-  SET_ARTIST_ID: (state, payload) => {
-    state.artistId = payload;
+  SET_SELECTED_ARTIST_ID: (state, payload) => {
+    state.selectedArtistId = payload;
+  },
+  SET_ARTISTS_SEARCH_QUERY: (state, payload) => {
+    state.artists = payload;
   }
 };
 

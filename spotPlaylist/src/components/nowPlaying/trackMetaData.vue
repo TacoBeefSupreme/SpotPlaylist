@@ -1,9 +1,7 @@
 <template>
     <div class="col">
         <div class="content">
-            <img class="artwork" v-bind:src="setArtworkPath"/>
-            <!-- <img class="artwork" src="https://i.scdn.co/image/c8496887deb3062348d7b3c219e6815e3c2c67de"/> -->
-            
+            <img class="artwork" v-bind:src="setArtworkPath"/>        
         </div>
 
         <div class="trackData">
