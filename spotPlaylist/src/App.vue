@@ -1,9 +1,14 @@
 <template>
-  <div class=".container " >
-    <navBar />
+  <div class=".container">
+    <navBar />    
     <div id="con">
       <searchBar />
-      <playlistTable />
+      <div v-if="loading">
+        <Loader :width="60" :height="60" :borderSize="8" />
+      </div>
+      <div v-else>
+        <playlistTable />
+      </div>
     </div>
     <nowPlayingBar />
   </div>
@@ -15,6 +20,7 @@ import nowPlayingBar from './components/nowPlaying/nowPlayingBar';
 import navBar from './components/navBar/navBar.vue';
 import searchBar from './components/searchBar/searchBar';
 import playlistTable from './components/playlistTable/playlistTable';
+import Loader from './components/shared/Loader';
 
 export default {
   name: 'App',
@@ -22,7 +28,13 @@ export default {
     nowPlayingBar,
     navBar,
     searchBar,
-    playlistTable
+    playlistTable,
+    Loader
+  },
+  computed: {
+    loading(){
+      return this.$store.getters.isLoading;
+    }
   }
 }
 </script>
@@ -32,6 +44,8 @@ export default {
   #con {
       padding-bottom: 100px;
   }
+
+  
 
 </style>
 

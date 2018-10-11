@@ -5,14 +5,16 @@ const state = {
   selectedArtistId: '',
   artists: [],
   suggestionsDivVisible: false,
-  searchedPlaylist: []
+  searchedPlaylist: [],
+  loading: false
 };
 
 const getters = {
   getArtistId: state => state.selectedArtistId,
   getArtists: state => state.artists,
   isSuggestionDivVisible: state => state.suggestionsDivVisible,
-  getSearchedPlaylist: state => state.getSearchedPlaylist
+  getSearchedPlaylist: state => state.getSearchedPlaylist,
+  isLoading: state => state.loading
 };
 
 const actions = {
@@ -35,7 +37,8 @@ const actions = {
       });
   },
 
-  async searchArtistTopTrack({ dispatch, getters }) {
+  async searchArtistTopTrack({ dispatch, commit, getters }) {
+    commit('SET_LOADING', true);
     let topTracksResponse = undefined;
     try {
       topTracksResponse = await api.fetchTopTracks(getters.getArtistId);
@@ -50,10 +53,12 @@ const actions = {
           shuffle: true,
           loadingNewPlaylist: true
         });
+        commit('SET_LOADING', false);
       })
       .catch(err => {
         // eslint-disable-next-line
         console.log(err.message);
+        commit('SET_LOADING', false);
       });
 
     /// move this to table componet, set it first track in table component later on
@@ -94,6 +99,9 @@ const mutations = {
   },
   SET_SEARCHED_PLAYLIST: (state, payload) => {
     state.searchedPlaylist = payload;
+  },
+  SET_LOADING: (state, payload) => {
+    state.loading = payload;
   }
 };
 
