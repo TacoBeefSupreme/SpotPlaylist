@@ -1,9 +1,10 @@
 <template>
   <div class=".container " >
     <navBar />
-    <searchBar />
-    <playlistTable />
-    
+    <div id="con">
+      <searchBar />
+      <playlistTable />
+    </div>
     <nowPlayingBar />
   </div>
    
@@ -28,6 +29,9 @@ export default {
 
 <style scoped>
 
+  #con {
+      padding-bottom: 100px;
+  }
 
 </style>
 
