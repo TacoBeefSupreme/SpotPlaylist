@@ -44,9 +44,7 @@ export default {
   #con {
       padding-bottom: 100px;
   }
-
   
-
 </style>
 
 
