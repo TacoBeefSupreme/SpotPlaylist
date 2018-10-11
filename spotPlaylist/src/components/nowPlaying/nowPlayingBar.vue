@@ -1,27 +1,26 @@
 <template>
-    <div @mousedown="(e) => e.preventDefault()" @mousemove="(e) => e.preventDefault()" 
-        @touchmove="(e) => e.preventDefault()" @touchstart="(e) => e.preventDefault()"
-    >
-        <div class="container-fluid">
-            <div class="row bar">
-                <TrackMetaData />
-                <AudioControl />
-                <VolumeControl />
-            </div>
+    
+    <div class="container-fluid" @mousedown="(e) => e.preventDefault()" @mousemove="(e) => e.preventDefault()" 
+        @touchmove="(e) => e.preventDefault()" @touchstart="(e) => e.preventDefault()">
+        <div class="row bar">
+            <TrackMetaData />
+            <AudioControl />
+            <VolumeControl />
+        </div>
 
-            <div v-if="this.$store.getters.getCurrentTrack">
-                <audio ref="audioElement" :src="setAudioSource" preload="auto"
-                    @loadeddata="handleLoad" @timeupdate="handleUpdateTimeProgressBar"  
-                    @volumechange="handleUpdateVolumeProgressBar" @ended="onNextSong"
-                    style="display:none">
-                </audio>
-            </div>
-            
-            <div v-else>
-                <audio ref="audioElement"></audio>
-            </div>
+        <div v-if="this.$store.getters.getCurrentTrack">
+            <audio ref="audioElement" :src="setAudioSource" preload="auto"
+                @loadeddata="handleLoad" @timeupdate="handleUpdateTimeProgressBar"  
+                @volumechange="handleUpdateVolumeProgressBar" @ended="onNextSong"
+                style="display:none">
+            </audio>
+        </div>
+        
+        <div v-else>
+            <audio ref="audioElement"></audio>
         </div>
     </div>
+ 
 </template>
 
 <script>
