@@ -10,8 +10,6 @@
             /> 
         </div>
     </form>
-
-
 </template>
 
 <script>
@@ -29,15 +27,6 @@ export default {
         };
     },
     computed: {
-        filteredArtists() {
-            if(this.searchQuery === '' || this.searchQuery === undefined || this.$store.getters.getArtists === undefined){
-                this.$store.dispatch('setSuggestionsDivVisiblilty', false);  
-                return;
-            }
-            const filteredArtistList =  this.$store.getters.getArtists.filter(item => item.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
-            this.$store.dispatch('setFilteredArist', filteredArtistList);
-            return filteredArtistList;
-        },
         visible() {
             console.log('searchBar: ');
             return this.$store.getters.isSuggestionDivVisible;
@@ -52,12 +41,19 @@ export default {
             }    
             this.$store.dispatch('searchArtistId', this.searchQuery);
         }, 250),
+        filterArtists() {
+            const filteredArtistList =  this.$store.getters.getArtists.filter(item => item.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+            this.$store.dispatch('setFilteredArist', filteredArtistList);
+            return filteredArtistList;
+        },
         onInputChange(){
             if(this.searchQuery === '' || this.searchQuery === undefined){
+                this.$store.dispatch('setSuggestionsDivVisiblilty', false);  
                 return;
             }
             
             this.searchApiRequest();
+            this.filterArtists();
 
             this.$store.dispatch('setSuggestionsDivVisiblilty', true);        
         },
