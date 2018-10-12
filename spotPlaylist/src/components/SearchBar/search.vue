@@ -20,7 +20,6 @@
                 ></li>
             </ul>
         </div>
-      
     </div>
 
 </template>
@@ -106,7 +105,7 @@ export default {
 <style scoped>
     .container {
         width: 50%;
-        margin-top: 20px;
+        margin-top: 8px;
     }
 
     .list-group {
