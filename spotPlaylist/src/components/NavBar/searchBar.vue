@@ -28,7 +28,6 @@ export default {
     },
     computed: {
         visible() {
-            console.log('searchBar: ');
             return this.$store.getters.isSuggestionDivVisible;
         }
     },
@@ -90,7 +89,6 @@ export default {
         },
         scrollToItem(){
             if(this.visible){
-                console.log(this.selectedIndex);
                 this.$emit('scrollTop', this.selectedIndex * this.itemHeight);
                 //this.$refs.optionsList.scrollTop = this.selectedIndex * this.itemHeight; 
             }

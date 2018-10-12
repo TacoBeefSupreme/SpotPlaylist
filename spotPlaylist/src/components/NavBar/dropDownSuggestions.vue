@@ -24,7 +24,6 @@ export default {
             return this.$store.getters.getArtists;
         },
         visible() {
-            console.log('drop: ');
             return this.$store.getters.isSuggestionDivVisible;
         }
     },
