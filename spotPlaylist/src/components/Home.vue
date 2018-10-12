@@ -3,24 +3,20 @@
     <navBar />    
     <div id="con">
       <searchBar />
-      <div v-if="loading">
-        <Loader :width="60" :height="60" :borderSize="8" />
-      </div>
-      <div v-else>
-        <playlistTable />
-      </div>
+      <!-- <playlistTable /> -->
+      <router-view></router-view>
     </div>
-    <nowPlayingBar />
+    <nowPlayingBar v-if="isCurrentPlaylist"/>
   </div>
    
 </template>
 
 <script>
-import nowPlayingBar from './nowPlaying/nowPlayingBar';
-import navBar from './navBar/navBar.vue';
-import searchBar from './searchBar/searchBar';
-import playlistTable from './playlistTable/playlistTable';
-import Loader from './shared/Loader';
+import landingPage from './Landing/landing';
+import nowPlayingBar from './NowPlayingBar/nowPlayingBar';
+import navBar from './NavBar/nav';
+import searchBar from './SearchBar/search';
+import Loader from './Shared/Loader';
 
 export default {
   name: 'Home',
@@ -28,14 +24,23 @@ export default {
     nowPlayingBar,
     navBar,
     searchBar,
-    playlistTable,
-    Loader
+    Loader,
+    landingPage
   },
   computed: {
     loading(){
       return this.$store.getters.isLoading;
+    },
+    isCurrentPlaylist(){
+      if(this.$store.getters.getCurrentPlaylist){
+        return true;
+      }
+      return false;
     }
-  }
+  },
+  created() {
+    this.$router.push({path: '/saved/playlists'});
+  },
 }
 </script>
 

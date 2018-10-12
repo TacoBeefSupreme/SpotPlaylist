@@ -1,36 +1,45 @@
 <template>
-    <div class="container mx-auto" v-if="!isSearchSuggestionVisible && isCurrentSelectedPlaylist">
-        <h5>Playlist Name</h5><span>{{ numberOfSongs }}</span>
-        <table class="table table-hover table-sm">
-            <thead>
-                <tr>
-                    <th>
-                    </th>
-                    <th>Title</th>
-                    <th>Artist</th>
-                    <th>Album</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(track, index) in currentlySelectedPlaylist" 
-                    :key="track.id"
-                    @click="onClickTrack(index)"
-                    :class="{ 'table-active': (trackNameWithSelectedIndex() === index )} "
-                >
-                    <td> <img class="artwork" :src="track.album.images[0].url"/>   </td>
-                    <td class="trackTitle text-truncate ">{{ track.name }}</td>
-                    <td class="trackMeta text-truncate">{{ track.artists[0].name }}</td>
-                    <td class="trackMeta text-truncate">{{ track.album.name }}</td>
-                </tr>    
-            </tbody>
-        </table>
+    <div>
+        <div v-if="loading">
+            <Loader :width="60" :height="60" :borderSize="8" />
+        </div>
+        <div class="container mx-auto" v-else-if="!isSearchSuggestionVisible && isCurrentSelectedPlaylist && !loading">
+            <h5>Playlist Name</h5><span>{{ numberOfSongs }}</span>
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>
+                        </th>
+                        <th>Title</th>
+                        <th>Artist</th>
+                        <th>Album</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(track, index) in currentlySelectedPlaylist" 
+                        :key="track.id"
+                        @click="onClickTrack(index)"
+                        :class="{ 'table-active': (trackNameWithSelectedIndex() === index )} "
+                    >
+                        <td> <img class="artwork" :src="track.album.images[0].url"/>   </td>
+                        <td class="trackTitle text-truncate ">{{ track.name }}</td>
+                        <td class="trackMeta text-truncate">{{ track.artists[0].name }}</td>
+                        <td class="trackMeta text-truncate">{{ track.album.name }}</td>
+                    </tr>    
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 
 <script>
+import Loader from '../Shared/Loader';
 
 export default {
     name: 'playlistTable',
+    components: {
+        Loader
+    },
     data: function(){
         return {
             trackCliked: false
@@ -49,7 +58,10 @@ export default {
         },
         numberOfSongs() {
             return this.currentlySelectedPlaylist ? `${this.currentlySelectedPlaylist.length} songs`: '';           
-        }
+        },
+        loading(){
+            return this.$store.getters.isLoading;
+        },
     },
     methods: {
         onClickTrack(index) {

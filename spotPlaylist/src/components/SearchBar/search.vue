@@ -78,6 +78,7 @@ export default {
           
             this.$store.dispatch('setSelectedArtistId', this.$store.getters.getArtists[index].id);
             this.$store.dispatch('searchArtistTopTrack');
+            this.$router.push({path: '/Playlist'});
         },
         up() {
             if (this.selectedIndex == 0 || this.selectedIndex === null) {

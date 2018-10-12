@@ -3,7 +3,8 @@ import Router from 'vue-router';
 import SigIn from '../components/User/signIn';
 import SignUp from '../components/User/signUp';
 import Home from '../components/Home';
-import PlaylistTable from '../components/playlistTable/playlistTable';
+import PlaylistTable from '../components/Playlist/playlistTable';
+import SavedPlaylists from '../components/Playlist/playlistSaved';
 
 Vue.use(Router);
 
@@ -12,12 +13,17 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
-    },
-    {
-      path: '/playlist/:query',
-      name: 'Playlist',
-      component: PlaylistTable
+      component: Home,
+      children: [
+        {
+          path: '/playlist',
+          component: PlaylistTable
+        },
+        {
+          path: '/saved/playlists',
+          component: SavedPlaylists
+        }
+      ]
     },
     {
       path: '/signin',
@@ -25,7 +31,7 @@ export default new Router({
       component: SigIn
     },
     {
-      path: 'signup',
+      path: '/signup',
       name: 'Signup',
       component: SignUp
     }
