@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto">  
+    <!-- <div class="container mx-auto">  
         <div class="form-group">
             <input class="form-control" v-model="searchQuery" 
                 type="text" @input="onInputChange"
@@ -20,7 +20,20 @@
                 ></li>
             </ul>
         </div>
-    </div>
+    </div> -->
+
+    <form class="mx-2 my-auto d-inline" @submit="e => e.preventDefault()">
+        <div class="input-group">
+            <input class="form-control" v-model="searchQuery" 
+                type="text" @input="onInputChange"
+                placeholder="Search by Artist" 
+                @keydown.up="up" @keydown.down="down" 
+                @keydown.enter="itemClicked(selectedIndex)"
+                spellcheck="false"
+            /> 
+        </div>
+    </form>
+
 
 </template>
 
@@ -29,10 +42,12 @@ import _ from 'lodash';
 
 export default {
     name: 'searchBar',
+    props: {
+        selectedIndex: Number
+    },
     data: function(){
         return {
             searchQuery: '',
-            selectedIndex: 0,
             itemHeight: 36
         };
     },
@@ -47,6 +62,7 @@ export default {
             return filteredArtistList;
         },
         visible() {
+            console.log('searchBar: ');
             return this.$store.getters.isSuggestionDivVisible;
         }
     },
@@ -72,7 +88,8 @@ export default {
             const selectedArtistName = this.$store.getters.getArtists[index].name;
             
             this.$store.dispatch('setSuggestionsDivVisiblilty', false);   
-            this.selectedIndex = 0;
+            //this.selectedIndex = 0;
+            this.$emit('setSelectedIndex', 0);
             this.searchQuery = selectedArtistName;
           
             this.$store.dispatch('setSelectedArtistId', this.$store.getters.getArtists[index].id);
@@ -80,22 +97,29 @@ export default {
             this.$router.push({path: '/Playlist'});
         },
         up() {
-            if (this.selectedIndex == 0 || this.selectedIndex === null) {
-                return;
+            if (this.selectedIndex === 0) {
+                this.$emit('setSelectedIndex', 0);
+                this.scrollToItem();
+                
+            }else{
+                //this.selectedIndex -= 1;
+                this.$emit('setSelectedIndex', this.selectedIndex-1);
+                this.scrollToItem();
             }
-            this.selectedIndex -= 1;
-            this.scrollToItem();
         },
         down(){
             if(this.selectedIndex >= this.$store.getters.getArtists.length - 1 || !this.visible){
                 return;
             }
-            this.selectedIndex += 1;
+            //this.selectedIndex += 1;
+            this.$emit('setSelectedIndex', this.selectedIndex+1);
             this.scrollToItem();
         },
         scrollToItem(){
             if(this.visible){
-                this.$refs.optionsList.scrollTop = this.selectedIndex * this.itemHeight; 
+                console.log(this.selectedIndex);
+                this.$emit('scrollTop', this.selectedIndex * this.itemHeight);
+                //this.$refs.optionsList.scrollTop = this.selectedIndex * this.itemHeight; 
             }
         }
     }
@@ -103,9 +127,8 @@ export default {
 </script>
 
 <style scoped>
-    .container {
-        width: 50%;
-        margin-top: 8px;
+    form {
+        width: 500px;
     }
 
     .list-group {

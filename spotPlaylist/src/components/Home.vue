@@ -2,7 +2,7 @@
   <div class=".container">
     <navBar />    
     <div id="con">
-      <searchBar />
+      <!-- <searchBar /> -->
       <!-- <playlistTable /> -->
       <router-view></router-view>
     </div>
@@ -15,7 +15,7 @@
 import landingPage from './Landing/landing';
 import nowPlayingBar from './NowPlayingBar/nowPlayingBar';
 import navBar from './NavBar/nav';
-import searchBar from './SearchBar/search';
+// import searchBar from './SearchBar/search';
 import Loader from './Shared/Loader';
 
 export default {
@@ -23,7 +23,6 @@ export default {
   components: {
     nowPlayingBar,
     navBar,
-    searchBar,
     Loader,
     landingPage
   },
