@@ -70,8 +70,8 @@ export default {
                 currentArtwork: this.currentlySelectedPlaylist[index].album.images[0].url,
                 currentTrackIndex: index
             };
-            this.$store.dispatch('setAutoPlay', true);
             this.$store.dispatch('setCurrentTrack', track);
+            this.$store.dispatch('setAutoPlay', true);
             this.trackCliked = !this.trackCliked;
         },
         trackNameWithSelectedIndex() {
