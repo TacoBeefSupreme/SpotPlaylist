@@ -1,27 +1,4 @@
 <template>
-    <!-- <div class="container mx-auto">  
-        <div class="form-group">
-            <input class="form-control" v-model="searchQuery" 
-                type="text" @input="onInputChange"
-                placeholder="Search by Artist" 
-                 @keydown.up="up" @keydown.down="down" 
-                 @keydown.enter="itemClicked(selectedIndex)"
-                 spellcheck="false"
-            /> 
-        </div>
-            
-        <div v-if="visible">
-            <ul class="list-group" ref="optionsList">
-                <li class="list-group-item" v-for="(artist,index) in filteredArtists"
-                    :key="artist['id']" @mouseover="selectedIndex = index"
-                    :class="{ 'active': (selectedIndex == index)} "
-                    v-text="artist['name']"
-                    @click="itemClicked(selectedIndex)"
-                ></li>
-            </ul>
-        </div>
-    </div> -->
-
     <form class="mx-2 my-auto d-inline" @submit="e => e.preventDefault()">
         <div class="input-group">
             <input class="form-control" v-model="searchQuery" 
