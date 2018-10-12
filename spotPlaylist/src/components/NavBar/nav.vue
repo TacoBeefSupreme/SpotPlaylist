@@ -6,7 +6,6 @@
                 <div class="navbar-header">
                     <router-link to="/" class="navbar-brand">SpotPlaylist</router-link>
                 </div>
-
                 
                 <div class="d-flex justify-content-center searchBarContainer">
                     <searchBar @scrollTop="onScrollTop" :selectedIndex="selectedIndex" 
