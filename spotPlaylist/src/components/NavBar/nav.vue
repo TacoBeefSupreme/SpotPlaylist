@@ -35,13 +35,11 @@
 
 <script>
 import searchBar from './searchBar';
-import dropDown from './dropDownSuggestions';
 
 export default {
     name: 'navBar',
     components: {
-        searchBar,
-        dropDown
+        searchBar
     },
     data(){
         return {
@@ -61,6 +59,7 @@ export default {
                     icon: 'exit_to_app', title: 'Logout', link: '/'
                 }
             ];
+            // if(this.userIsAuth) => change icons
             return menuItemIcons;
         }
     },

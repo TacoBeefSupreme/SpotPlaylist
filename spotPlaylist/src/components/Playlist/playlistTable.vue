@@ -3,7 +3,7 @@
         <div v-if="loading">
             <Loader :width="60" :height="60" :borderSize="8" />
         </div>
-        <div class="container mx-auto" v-else-if="!isSearchSuggestionVisible && isCurrentSelectedPlaylist && !loading">
+        <div v-else-if=" isCurrentSelectedPlaylist && !loading">
             <h5>Playlist Name</h5><span>{{ numberOfSongs }}</span>
             <table class="table table-hover table-sm">
                 <thead>
@@ -85,7 +85,7 @@ export default {
 </script>
 
 <style scoped>
-    .container {
+    /* .container {
         width: 75%;
         margin-top: 40px;
     }
@@ -111,7 +111,6 @@ export default {
         height: 55px;
         max-width: 55px;
         margin-right: 15px;
-        /* float: left; */
         background-size: cover;
-    }
+    } */
 </style>

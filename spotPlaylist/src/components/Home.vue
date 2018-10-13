@@ -4,6 +4,7 @@
     <v-content>
         <v-container fluid>
           <router-view></router-view>
+          <nowPlayingBar />
         </v-container>
       </v-content>
   </v-app>
@@ -14,7 +15,6 @@
 import landingPage from './Landing/landing';
 import nowPlayingBar from './NowPlayingBar/nowPlayingBar';
 import navBar from './NavBar/nav';
-// import searchBar from './SearchBar/search';
 import Loader from './Shared/Loader';
 
 export default {

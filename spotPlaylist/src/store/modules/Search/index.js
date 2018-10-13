@@ -5,20 +5,18 @@ const state = {
   selectedArtistId: '',
   artists: [],
   suggestionsDivVisible: false,
-  searchedPlaylist: [],
   loading: false
 };
 
 const getters = {
   getArtistId: state => state.selectedArtistId,
   getArtists: state => state.artists,
-  isSuggestionDivVisible: state => state.suggestionsDivVisible,
-  getSearchedPlaylist: state => state.getSearchedPlaylist,
   isLoading: state => state.loading
 };
 
 const actions = {
   searchArtistId({ commit, getters }, payload) {
+    commit('SET_LOADING', true);
     api
       .fetchArtistId(payload)
       .then(data => {
@@ -29,12 +27,13 @@ const actions = {
         } else {
           commit('SET_ARTISTS_SEARCH_QUERY', artistList);
         }
+        commit('SET_ARTISTS_SEARCH_QUERY', artistList);
       })
       .catch(err => {
         // eslint-disable-next-line
         console.log(err.message);
-        commit('SET_SUGGESTIONS_DIV_VISIBILTY', false);
-      });
+      })
+      .finally(() => commit('SET_LOADING', false));
   },
 
   async searchArtistTopTrack({ dispatch, commit, getters }) {
@@ -53,13 +52,12 @@ const actions = {
           shuffle: true,
           loadingNewPlaylist: true
         });
-        commit('SET_LOADING', false);
       })
       .catch(err => {
         // eslint-disable-next-line
         console.log(err.message);
-        commit('SET_LOADING', false);
-      });
+      })
+      .finally(() => commit('SET_LOADING', false));
 
     /// move this to table componet, set it first track in table component later on
     // maybe table component should have its own playlist and current track state??
@@ -75,15 +73,6 @@ const actions = {
   },
   setSelectedArtistId: ({ commit }, payload) => {
     commit('SET_SELECTED_ARTIST_ID', payload);
-  },
-  setFilteredArist: ({ commit }, payload) => {
-    commit('SET_ARTISTS_SEARCH_QUERY', payload);
-  },
-  setSuggestionsDivVisiblilty: ({ commit }, payload) => {
-    commit('SET_SUGGESTIONS_DIV_VISIBILTY', payload);
-  },
-  setSearchedPlaylist: ({ commit }, payload) => {
-    commit('SET_SEARCHED_PLAYLIST', payload);
   }
 };
 
@@ -93,12 +82,6 @@ const mutations = {
   },
   SET_ARTISTS_SEARCH_QUERY: (state, payload) => {
     state.artists = payload;
-  },
-  SET_SUGGESTIONS_DIV_VISIBILTY: (state, payload) => {
-    state.suggestionsDivVisible = payload;
-  },
-  SET_SEARCHED_PLAYLIST: (state, payload) => {
-    state.searchedPlaylist = payload;
   },
   SET_LOADING: (state, payload) => {
     state.loading = payload;
