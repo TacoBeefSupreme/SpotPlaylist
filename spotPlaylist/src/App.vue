@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <router-view></router-view>
-  </div>
-   
+  <v-app>
+    <router-view></router-view>  
+  </v-app> 
 </template>
 
 <script>
@@ -16,12 +15,5 @@ export default {
 }
 </script>
 
-<style scoped>
-
-  #con {
-      padding-bottom: 100px;
-  }
-  
-</style>
 
 

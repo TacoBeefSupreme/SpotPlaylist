@@ -1,32 +1,36 @@
 <template>
-    <div >
-        <!-- navbar-expand-md  -->
-        <nav class="navbar navbar-light navbar-fixed-top" style="background-color: #e3f3fd;"> 
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <router-link to="/" class="navbar-brand">SpotPlaylist</router-link>
-                </div>
-                
-                <div class="d-flex justify-content-center searchBarContainer">
-                    <searchBar @scrollTop="onScrollTop" :selectedIndex="selectedIndex" 
-                        @setSelectedIndex="onSetSelectedIndex" 
-                />
-                </div>
+    <v-app id="inspire">
+        <v-navigation-drawer temporary v-model="sideNav" clipped app>
+            <v-list dense>
+               <v-list-tile v-for="item in menuItem" :key="item.title" :to="item.link">
+                   <v-list-tile-action>
+                       <v-icon> {{ item.icon }} </v-icon>
+                   </v-list-tile-action>
+                   <v-list-tile-content> {{ item.title }} </v-list-tile-content>
+               </v-list-tile>
+            </v-list>
+        </v-navigation-drawer>
+        
+        <v-toolbar flat dark color="cyan">
+            <v-toolbar-side-icon @click.stop="sideNav = !sideNav" class="hidden-sm-and-up"></v-toolbar-side-icon>
+            <v-toolbar-title class="title mr-4">
+                <router-link to="/" tag="span" style="cursor: pointer">SpotPlaylist</router-link>
+            </v-toolbar-title>
+            
+            <!-- SEARCH BAR -->
+            <searchBar />
 
-                <div class="d-flex justify-content-end">
-                    <button type="button" class="btn btn-outline-primary authButtons" @click="signIn">Sign In</button>
-                    <button type="button" class="btn btn-outline-primary authButtons" @click="signUp">Sign Up</button>
-                    <button type="button" class="btn btn-outline-primary authButtons" @click="logout">Logout</button>
-                </div>
-            </div>
-        </nav> 
-        <div class="d-flex justify-content-center">
-            <dropDown :visible="visible" @setDropDownSugDivRef="onSetDropDownSugDivRef" 
-                :selectedIndex="selectedIndex"  @setSelectedIndex="onSetSelectedIndex"
-            />
-        </div>
-    </div>
+            <v-toolbar-items class="hidden-xs-only">
+                <v-btn
+                    flat v-for="item in menuItem" :key="item.title" :to="item.link"
+                >
+                    <v-icon left dark>{{ item.icon }}</v-icon>
+                </v-btn>
+            </v-toolbar-items>
 
+        </v-toolbar>
+    </v-app>
+    
 </template>
 
 <script>
@@ -41,9 +45,23 @@ export default {
     },
     data(){
         return {
-            visible: false,
-            dropDownSugDivRef: '',
-            selectedIndex: 0
+            sideNav: false,        
+        }
+    },
+    computed: {
+        menuItem(){
+            let menuItemIcons = [
+                {
+                    icon: 'lock_open', title: 'Sign In', link: '/signin'
+                },
+                {
+                    icon: 'face', title: 'Sing Up', link: '/signup'
+                },
+                {
+                    icon: 'exit_to_app', title: 'Logout', link: '/'
+                }
+            ];
+            return menuItemIcons;
         }
     },
     methods: {
@@ -71,13 +89,3 @@ export default {
 }
 </script>
 
-<style scoped>
-    .searchBarContainer {
-        display: contents;
-    }
-    .authButtons{
-        margin-left: 10px
-    }
-
-
-</style>

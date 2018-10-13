@@ -1,5 +1,13 @@
 <template>
-    <form class="mx-2 my-auto d-inline" @submit="e => e.preventDefault()">
+ 
+    <v-autocomplete>
+
+
+    </v-autocomplete>
+
+
+
+    <!-- <form class="mx-2 my-auto d-inline" @submit="e => e.preventDefault()">
         <div class="input-group">
             <input class="form-control" v-model="searchQuery" 
                 type="text" @input="onInputChange"
@@ -9,7 +17,7 @@
                 spellcheck="false"
             /> 
         </div>
-    </form>
+    </form> -->
 </template>
 
 <script>

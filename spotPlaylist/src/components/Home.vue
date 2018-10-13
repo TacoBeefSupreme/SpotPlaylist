@@ -1,14 +1,13 @@
 <template>
-  <div class=".container">
-    <navBar />    
-    <div id="con">
-      <!-- <searchBar /> -->
-      <!-- <playlistTable /> -->
-      <router-view></router-view>
-    </div>
-    <nowPlayingBar v-if="isCurrentPlaylist"/>
-  </div>
-   
+  <v-app>
+    <navBar/>
+    <v-content>
+        <v-container fluid>
+          <router-view></router-view>
+        </v-container>
+      </v-content>
+  </v-app>
+  
 </template>
 
 <script>
@@ -43,12 +42,5 @@ export default {
 }
 </script>
 
-<style scoped>
-
-  #con {
-      padding-bottom: 100px;
-  }
-  
-</style>
 
 
