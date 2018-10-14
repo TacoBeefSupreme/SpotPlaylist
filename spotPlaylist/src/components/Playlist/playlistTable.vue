@@ -1,6 +1,14 @@
 <template>
     <v-container grid-list-md text-xs-center my-5 pt-2 >
-        <v-layout row>
+        <v-layout v-if="loading" align-center justify-center row fill-height >
+            <v-progress-circular
+                :size="70"
+                :width="7"
+                 color="cyan"
+                indeterminate
+            ></v-progress-circular>
+        </v-layout>
+        <v-layout v-else row>
             <v-flex sm5 v-if="$vuetify.breakpoint.smAndUp">
                 <v-card v-if="currentlySelectedTrack">
                     <v-container >
@@ -66,42 +74,7 @@
                 </v-list>
             </v-flex>
         </v-layout>
-
-
     </v-container>
-
-
-    <!-- <div>
-        <div v-if="loading">
-            <Loader :width="60" :height="60" :borderSize="8" />
-        </div>
-        <div v-else-if=" isCurrentSelectedPlaylist && !loading">
-            <h5>Playlist Name</h5><span>{{ numberOfSongs }}</span>
-            <table class="table table-hover table-sm">
-                <thead>
-                    <tr>
-                        <th>
-                        </th>
-                        <th>Title</th>
-                        <th>Artist</th>
-                        <th>Album</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(track, index) in currentlySelectedPlaylist" 
-                        :key="track.id"
-                        @click="onClickTrack(index)"
-                        :class="{ 'table-active': (trackNameWithSelectedIndex() === index )} "
-                    >
-                        <td> <img class="artwork" :src="track.album.images[0].url"/>   </td>
-                        <td class="trackTitle text-truncate ">{{ track.name }}</td>
-                        <td class="trackMeta text-truncate">{{ track.artists[0].name }}</td>
-                        <td class="trackMeta text-truncate">{{ track.album.name }}</td>
-                    </tr>    
-                </tbody>
-            </table>
-        </div>
-    </div> -->
 </template>
 
 <script>

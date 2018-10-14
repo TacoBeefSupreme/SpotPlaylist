@@ -17,19 +17,6 @@
         @input="onInputModelChange"
     >
     </v-autocomplete>
-
-
-    <!-- <form class="mx-2 my-auto d-inline" @submit="e => e.preventDefault()">
-        <div class="input-group">
-            <input class="form-control" v-model="searchQuery" 
-                type="text" @input="onInputChange"
-                placeholder="Search by Artist" 
-                @keydown.up="up" @keydown.down="down" 
-                @keydown.enter="itemClicked(selectedIndex)"
-                spellcheck="false"
-            /> 
-        </div>
-    </form> -->
 </template>
 
 <script>
