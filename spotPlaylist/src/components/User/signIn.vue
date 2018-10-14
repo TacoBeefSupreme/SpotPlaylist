@@ -13,8 +13,9 @@
                         </v-form>
                     </v-card-text>
                     <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="cyan">Login</v-btn>
+                        <v-layout align-center justify-center>
+                            <v-btn color="cyan">Submit</v-btn>
+                        </v-layout>
                     </v-card-actions>
                 </v-card>
             </v-flex>

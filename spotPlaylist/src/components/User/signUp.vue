@@ -13,10 +13,9 @@
                             <v-text-field prepend-icon="lock" name="confirmPassword" label="Confirm Password" id="confirmPassword" type="password" color="cyan"></v-text-field>
                         </v-form>
                     </v-card-text>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="cyan">Sumbit</v-btn>
-                    </v-card-actions>
+                    <v-layout align-center justify-center>
+                        <v-btn color="cyan">Submit</v-btn>
+                    </v-layout>
                 </v-card>
             </v-flex>
         </v-layout>
