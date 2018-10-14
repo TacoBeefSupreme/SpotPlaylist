@@ -156,32 +156,5 @@ export default {
 </script>
 
 <style scoped>
-    /* .container {
-        width: 75%;
-        margin-top: 40px;
-    }
 
-    tbody:hover {
-        cursor: pointer;
-    }
-
-    th {
-        font-weight: 600;
-    }
-
-    td {
-        font-size: 14px;
-        vertical-align: middle;
-    }
-
-    .trackTitle {
-        width: 40%;
-    }
-
-    .artwork {
-        height: 55px;
-        max-width: 55px;
-        margin-right: 15px;
-        background-size: cover;
-    } */
 </style>

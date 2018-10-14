@@ -1,5 +1,5 @@
 <template>
-    <v-footer height="112" color="light-grey" fixed>
+    <v-footer height="110" color="light-grey" fixed>
         <v-container fluid grid-list @mousedown="(e) => e.preventDefault()" @mousemove="(e) => e.preventDefault()" 
         @touchmove="(e) => e.preventDefault()" @touchstart="(e) => e.preventDefault()">
             <v-layout>
