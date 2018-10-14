@@ -24,22 +24,6 @@
 
         </v-layout>
     </v-container>
-    <!-- <div class="col-3 contain">
-        <div class="volumeBar">
-
-            <button class="controlButton volume" title="Volume Button" @click="onMute">
-                <img v-if="this.$store.getters.isMute" src="../../assets/images/icons/volume-mute.png" alt="Volume">
-                <img v-else src="../../assets/images/icons/volume.png" alt="Volume">
-            </button>
- 
-            <div ref="volumeProgressBar" class="progressBar" @mousedown="onMouseDown" 
-                @mousemove="onMouseMove" @mouseup="onMouseUp"
-            >                
-                <div v-bind:style="[baseProgressStyles, widthPercentage]"></div>
-            </div>
-
-        </div>
-    </div> -->
 </template>
 
 <script>
