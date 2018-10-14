@@ -8,7 +8,7 @@ const state = {
   currentTime: '0:00',
   progress: 0,
   remainingTime: '',
-  volume: '100%',
+  volume: 0,
   mouseDown: false,
   duration: 0,
   currentTrackIndex: 0,

@@ -4,8 +4,7 @@
             <v-flex sm2>
                 <v-btn fab dark small color="white">
                     <v-icon @click="onShuffle" v-if="!this.$store.getters.isShuffle" color="cyan" >shuffle</v-icon>
-                    <v-icon @click="onShuffle" v-else color="orange darken-1" >shuffle</v-icon>
-                    
+                    <v-icon @click="onShuffle" v-else color="orange darken-1" >shuffle</v-icon>   
                 </v-btn>
             </v-flex>
             <v-flex sm2>
@@ -37,11 +36,19 @@
         </v-layout>
         <v-layout row>
              <span class="time">{{ this.$store.getters.getCurrentTime }}</span>
-            <v-flex sm9>
-                <v-progress-linear 
-                    v-model="widthPercentage" 
-                    color="cyan"
-                ></v-progress-linear>
+            <v-flex sm10>
+                <div 
+                    ref="progressBar" 
+                    @mousedown="onMouseDown" 
+                    @mouseup="onMouseUp" 
+                    @mousemove="onMouseMove"
+                    style="cursor: pointer"
+                >
+                    <v-progress-linear 
+                        v-model="widthPercentage" 
+                        color="cyan"
+                    ></v-progress-linear>
+                </div>
             </v-flex>
             <span class="time">{{ this.$store.getters.getRemainingTime }}</span>
         </v-layout>

@@ -1,5 +1,30 @@
 <template>
-    <div class="col-3 contain">
+    <v-container>
+        <v-layout row>
+            <v-flex sm4>
+                <v-btn fab dark small color="white">
+                    <v-icon @click="onMute" v-if="!this.$store.getters.isMute" color="cyan" >volume_up</v-icon>
+                    <v-icon @click="onMute" v-else color="orange darken-1" >volume_off</v-icon>   
+                </v-btn>
+            </v-flex>
+            <v-flex sm8>
+                <div 
+                    ref="volumeProgressBar" 
+                    @mousedown="onMouseDown" 
+                    @mousemove="onMouseMove" 
+                    @mouseup="onMouseUp"
+                    style="cursor: pointer"
+                    >
+                    <v-progress-linear 
+                        v-model="widthPercentage" 
+                        color="cyan"
+                    ></v-progress-linear>
+                </div>
+            </v-flex>
+
+        </v-layout>
+    </v-container>
+    <!-- <div class="col-3 contain">
         <div class="volumeBar">
 
             <button class="controlButton volume" title="Volume Button" @click="onMute">
@@ -14,7 +39,7 @@
             </div>
 
         </div>
-    </div>
+    </div> -->
 </template>
 
 <script>
@@ -39,9 +64,7 @@ export default {
     },
     computed: {
         widthPercentage(){
-            return {
-                width: this.$store.getters.getVolume
-            }
+            return this.$store.getters.getVolume;
         }
     },
     methods: {
@@ -73,6 +96,13 @@ export default {
 </script>
 
 <style scoped>
+    .flex.sm8 {
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-right: 50px;
+    }
+
+
     .contain {
         width: 100%;
     }
