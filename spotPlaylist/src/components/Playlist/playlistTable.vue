@@ -1,5 +1,77 @@
 <template>
-    <div>
+    <v-container grid-list-md text-xs-center my-5 pt-2 >
+        <v-layout row>
+            <v-flex sm5 v-if="$vuetify.breakpoint.smAndUp">
+                <v-card v-if="currentlySelectedTrack">
+                    <v-container >
+                        <v-layout>
+                            <v-flex xs7>
+                                <v-img 
+                                    :src="currentlySelectedTrack.album.images[0].url"
+                                    contain
+                                >
+                                </v-img>
+                            </v-flex>
+                            <v-flex xs5>
+                                <v-card-title primary-title>
+                                    <div>
+                                        <div class="headline">Playlist Name!</div>
+                                    </div>
+                                </v-card-title>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                </v-card>
+                <v-container>
+                    <v-layout>
+                        <v-flex sm6 text-xs-center>
+                            <div @click="onPlay">
+                                <v-btn large>Play </v-btn>
+                            </div>
+                        </v-flex>
+                        <v-flex sm6 text-xs-center>
+                            <div @click="onShuffle">
+                                <v-btn large>Shuffle</v-btn>
+                            </div>
+                        </v-flex>
+                    </v-layout>
+                </v-container>   
+            </v-flex>
+            <!-- <v-flex xs12 sm6 offset-sm3 align-center justify-center fill-height> -->
+            <v-flex xs12 sm6 offset-sm1 align-center justify-center fill-height>
+                <v-list three-line>
+                    <v-subheader> Playlist Name: {{ numberOfSongs }}</v-subheader>
+                    <template v-for="(track, index) in currentlySelectedPlaylist" >
+                        <v-list-tile :key="track.id" avatar ripple @click="onClickTrack(index)" class="cursor: pointer">
+                            <v-list-tile>
+                                <img 
+                                    :src="track.album.images[0].url"
+                                    max-width="50"
+                                    height="50"
+                                >
+                            </v-list-tile>
+                            <v-list-tile-content>
+                                <v-list-tile-title v-html="track.name"></v-list-tile-title>
+                                 <v-list-tile-sub-title v-html="track.album.name"></v-list-tile-sub-title>
+                            </v-list-tile-content>
+
+                            <v-list-tile-action>
+                                <v-icon v-if="track.name === currentlySelectedTrackName" color="blue">
+                                    library_music
+                                </v-icon>
+                            </v-list-tile-action>
+
+                        </v-list-tile>
+                    </template>
+                </v-list>
+            </v-flex>
+        </v-layout>
+
+
+    </v-container>
+
+
+    <!-- <div>
         <div v-if="loading">
             <Loader :width="60" :height="60" :borderSize="8" />
         </div>
@@ -29,7 +101,7 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </div> -->
 </template>
 
 <script>
@@ -40,21 +112,22 @@ export default {
     components: {
         Loader
     },
-    data: function(){
-        return {
-            trackCliked: false
-        };
-    },
     computed: {
-        isSearchSuggestionVisible() {
-            return this.$store.getters.isSuggestionDivVisible;
-        },
         currentlySelectedPlaylist() {
             const currentPlayingPlaylist = this.$store.getters.getCurrentPlaylist;
             return currentPlayingPlaylist !== undefined ? this.$store.getters.getCurrentPlaylist : null;
         },
-        isCurrentSelectedPlaylist(){
-            return this.$store.getters.getCurrentPlaylist ? true: false;
+        currentlySelectedTrack(){
+            return this.$store.getters.getCurrentTrack ? this.$store.getters.getCurrentTrack: null;
+        },
+        currentlySelectedTrackName(){
+            let trackName = null;
+            if(this.currentlySelectedTrack){
+               
+                trackName = currentlySelectedTrack.name;
+            }
+            console.log(trackName);
+            return trackName;
         },
         numberOfSongs() {
             return this.currentlySelectedPlaylist ? `${this.currentlySelectedPlaylist.length} songs`: '';           
@@ -64,6 +137,16 @@ export default {
         },
     },
     methods: {
+        // onClickTrack(index) {
+        //     const track = {
+        //         currentTrack: this.currentlySelectedPlaylist[index],
+        //         currentArtwork: this.currentlySelectedPlaylist[index].album.images[0].url,
+        //         currentTrackIndex: index
+        //     };
+        //     this.$store.dispatch('setCurrentTrack', track);
+        //     this.$store.dispatch('setAutoPlay', true);
+        //     this.trackCliked = !this.trackCliked;
+        // },
         onClickTrack(index) {
             const track = {
                 currentTrack: this.currentlySelectedPlaylist[index],
@@ -72,12 +155,28 @@ export default {
             };
             this.$store.dispatch('setCurrentTrack', track);
             this.$store.dispatch('setAutoPlay', true);
-            this.trackCliked = !this.trackCliked;
+            this.selectedIndex = index
         },
-        trackNameWithSelectedIndex() {
-            if(this.$store.getters.getCurrentTrack){
-                const currentTrackIndex = this.currentlySelectedPlaylist.findIndex((track) => track.name === this.$store.getters.getCurrentTrack.name);
-                return currentTrackIndex;
+        onPlay(){
+            if(this.currentlySelectedPlaylist){
+                this.onClickTrack(0);
+            }
+        },
+        onShuffle(){
+            //// FIX ///////
+            if(this.currentlySelectedPlaylist){
+                let randomTrackIndex = Math.floor((Math.random() * this.currentlySelectedPlaylist.length));
+                const track = {
+                    currentTrack: this.currentlySelectedPlaylist[randomTrackIndex],
+                    currentArtwork: this.currentlySelectedPlaylist[randomTrackIndex].album.images[0].url,
+                    currentTrackIndex: randomTrackIndex
+                };
+                this.$store.dispatch('setCurrentTrack', track);
+                this.$store.dispatch('setSuffle', {
+                    shuffle: !this.$store.getters.isShuffle,
+                    loadingNewPlaylist: false
+                });
+                this.$store.dispatch('setAutoPlay', true);
             }
         }
     }

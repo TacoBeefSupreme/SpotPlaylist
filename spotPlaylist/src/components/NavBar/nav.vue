@@ -1,5 +1,5 @@
 <template>
-    <v-app id="inspire">
+    <div>
         <v-navigation-drawer temporary v-model="sideNav" clipped app>
             <v-list dense>
                <v-list-tile v-for="item in menuItem" :key="item.title" :to="item.link">
@@ -11,7 +11,7 @@
             </v-list>
         </v-navigation-drawer>
         
-        <v-toolbar flat dark color="cyan">
+        <v-toolbar fixed flat dark color="cyan">
             <v-toolbar-side-icon @click.stop="sideNav = !sideNav" class="hidden-sm-and-up"></v-toolbar-side-icon>
             <v-toolbar-title class="title mr-4">
                 <router-link to="/" tag="span" style="cursor: pointer">SpotPlaylist</router-link>
@@ -29,7 +29,7 @@
             </v-toolbar-items>
 
         </v-toolbar>
-    </v-app>
+    </div>
     
 </template>
 

@@ -12,7 +12,7 @@
         item-text="artistName"
         item-value="API"
         placeholder="Search for an Artist"
-        prepend-icon="library_music"
+        prepend-icon="search"
         return-object
         @input="onInputModelChange"
     >
@@ -67,7 +67,7 @@ export default {
         searchApiRequest: _.debounce(function(val) {    
                 this.$store.dispatch('searchArtistId', val);
             }, 
-        250), 
+        100), 
         onInputModelChange(){
             if(this.model){
                 this.$store.dispatch('setSelectedArtistId', this.model.id);
