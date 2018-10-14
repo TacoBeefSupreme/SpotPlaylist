@@ -4,7 +4,7 @@
     <v-content>
         <v-container fluid>
           <router-view></router-view>
-          <nowPlayingBar />
+          <nowPlayingBar v-if="this.$store.getters.getCurrentPlaylist" />
         </v-container>
       </v-content>
   </v-app>
