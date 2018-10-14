@@ -124,9 +124,8 @@ export default {
             let trackName = null;
             if(this.currentlySelectedTrack){
                
-                trackName = currentlySelectedTrack.name;
+                trackName = this.currentlySelectedTrack.name;
             }
-            console.log(trackName);
             return trackName;
         },
         numberOfSongs() {
@@ -171,7 +170,7 @@ export default {
                     currentArtwork: this.currentlySelectedPlaylist[randomTrackIndex].album.images[0].url,
                     currentTrackIndex: randomTrackIndex
                 };
-                this.$store.dispatch('setCurrentTrack', track);
+                //this.$store.dispatch('setCurrentTrack', track);
                 this.$store.dispatch('setSuffle', {
                     shuffle: !this.$store.getters.isShuffle,
                     loadingNewPlaylist: false
