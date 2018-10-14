@@ -50,7 +50,7 @@
                 <v-list three-line>
                     <v-subheader> Playlist Name: {{ numberOfSongs }}</v-subheader>
                     <template v-for="(track, index) in currentlySelectedPlaylist" >
-                        <v-list-tile :key="track.id" avatar ripple @click="onClickTrack(index)" class="cursor: pointer">
+                        <v-list-tile :key="track.id" avatar ripple @click="onClickTrack(index)" class="listItem">
                             <v-list-tile>
                                 <img 
                                     :src="track.album.images[0].url"
@@ -156,5 +156,11 @@ export default {
 </script>
 
 <style scoped>
+    .listItem {
+        cursor: pointer;
+    }
+    .listItem:hover {
+        background-color: rgb(228,231,234);
+    }
 
 </style>
