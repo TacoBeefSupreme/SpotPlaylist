@@ -64,7 +64,7 @@
                             </v-list-tile-content>
 
                             <v-list-tile-action>
-                                <v-icon v-if="track.name === currentlySelectedTrackName" color="blue">
+                                <v-icon v-if="track.name === currentlySelectedTrackName" color="cyan">
                                     library_music
                                 </v-icon>
                             </v-list-tile-action>
