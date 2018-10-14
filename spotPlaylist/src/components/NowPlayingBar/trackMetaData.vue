@@ -25,24 +25,6 @@
                    
         </v-layout>
     </v-container>
-
-    <!-- <div class="col-3">
-        <div class="row">
-            <div class="content float-left">
-                <img class="artwork" v-bind:src="setArtworkPath"/>        
-            </div>
-
-            <div class="trackData">
-                <div class="trackName text-truncate">
-                    <span class="d-inline-block text-truncate">{{ setTracKName }}</span>
-                </div>
-        
-                <div class="artistName">
-                    <span class="d-inline-block text-truncate">{{ setArtistName }}</span>
-                </div>
-            </div>
-        </div>
-    </div> -->
 </template>
 
 <script>

@@ -2,7 +2,7 @@
     <v-footer height="110" color="light-grey" fixed>
         <v-container fluid grid-list @mousedown="(e) => e.preventDefault()" @mousemove="(e) => e.preventDefault()" 
         @touchmove="(e) => e.preventDefault()" @touchstart="(e) => e.preventDefault()">
-            <v-layout>
+            <v-layout v-if="$vuetify.breakpoint.smAndUp">
                 <v-flex sm3>
                      <TrackMetaData />
                 </v-flex>
@@ -11,6 +11,11 @@
                 </v-flex>
                 <v-flex sm3>
                     <volumeControl />
+                </v-flex>
+            </v-layout>
+            <v-layout v-else>
+                <v-flex xs12>
+                    <audioControl />
                 </v-flex>
             </v-layout>
             <v-layout>
