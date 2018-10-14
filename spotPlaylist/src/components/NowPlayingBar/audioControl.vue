@@ -3,33 +3,33 @@
         <v-layout row ml-5>
             <v-flex sm2>
                 <v-btn fab dark small color="white">
-                    <v-icon @click="onShuffle" v-if="!this.$store.getters.isShuffle" color="cyan" >shuffle</v-icon>
+                    <v-icon @click="onShuffle" v-if="!this.$store.getters.isShuffle" color="primary" >shuffle</v-icon>
                     <v-icon @click="onShuffle" v-else color="orange darken-1" >shuffle</v-icon>   
                 </v-btn>
             </v-flex>
             <v-flex sm2>
                 <v-btn fab dark small color="white">
-                    <v-icon dark @click="onPrev" color="cyan">skip_previous</v-icon>
+                    <v-icon dark @click="onPrev" color="primary">skip_previous</v-icon>
                 </v-btn>
             </v-flex>
             <v-flex sm2 v-if="this.$store.getters.isPlaying">
                 <v-btn fab dark small color="white">
-                    <v-icon dark @click="onPlay" color="cyan">play_circle_outline</v-icon>
+                    <v-icon dark @click="onPlay" color="primary">play_circle_outline</v-icon>
                 </v-btn>
             </v-flex>
             <v-flex sm2 v-else>
                 <v-btn fab dark small color="white">
-                    <v-icon dark @click="onPause" color="cyan">pause_circle_outline</v-icon>
+                    <v-icon dark @click="onPause" color="primary">pause_circle_outline</v-icon>
                 </v-btn>
             </v-flex>
             <v-flex sm2>
                 <v-btn fab dark small color="white">
-                    <v-icon dark @click="onNext" color="cyan">skip_next</v-icon>
+                    <v-icon dark @click="onNext" color="primary">skip_next</v-icon>
                 </v-btn>
             </v-flex>
             <v-flex sm2>
                 <v-btn fab dark small color="white">
-                    <v-icon dark @click="onRepeat" v-if="!this.$store.getters.isRepeat" color="cyan">repeat</v-icon>
+                    <v-icon dark @click="onRepeat" v-if="!this.$store.getters.isRepeat" color="primary">repeat</v-icon>
                     <v-icon dark @click="onRepeat" v-else color="orange darken-1">repeat_one</v-icon>
                 </v-btn>
             </v-flex>
@@ -46,7 +46,7 @@
                 >
                     <v-progress-linear 
                         v-model="widthPercentage" 
-                        color="cyan"
+                        color="primary"
                     ></v-progress-linear>
                 </div>
             </v-flex>

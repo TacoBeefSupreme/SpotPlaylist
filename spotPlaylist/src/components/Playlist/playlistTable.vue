@@ -4,7 +4,7 @@
             <v-progress-circular
                 :size="70"
                 :width="7"
-                 color="cyan"
+                 color="primary"
                 indeterminate
             ></v-progress-circular>
         </v-layout>
@@ -64,7 +64,7 @@
                             </v-list-tile-content>
 
                             <v-list-tile-action>
-                                <v-icon v-if="track.name === currentlySelectedTrackName" color="cyan">
+                                <v-icon v-if="track.name === currentlySelectedTrackName" color="primary">
                                     library_music
                                 </v-icon>
                             </v-list-tile-action>

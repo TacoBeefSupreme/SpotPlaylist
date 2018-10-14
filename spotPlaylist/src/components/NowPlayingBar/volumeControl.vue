@@ -3,7 +3,7 @@
         <v-layout row>
             <v-flex sm4>
                 <v-btn fab dark small color="white">
-                    <v-icon @click="onMute" v-if="!this.$store.getters.isMute" color="cyan" >volume_up</v-icon>
+                    <v-icon @click="onMute" v-if="!this.$store.getters.isMute" color="primary" >volume_up</v-icon>
                     <v-icon @click="onMute" v-else color="orange darken-1" >volume_off</v-icon>   
                 </v-btn>
             </v-flex>
@@ -17,7 +17,7 @@
                     >
                     <v-progress-linear 
                         v-model="widthPercentage" 
-                        color="cyan"
+                        color="primary"
                     ></v-progress-linear>
                 </div>
             </v-flex>
