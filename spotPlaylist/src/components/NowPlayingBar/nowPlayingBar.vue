@@ -1,6 +1,6 @@
 <template>
-    <v-footer height="150" fixed>
-        <v-container fluid grid-list>
+    <v-footer height="112" color="light-grey" fixed>
+        <v-container fluid grid-list >
             <v-layout>
                 <v-flex sm3>
                      <TrackMetaData />
@@ -108,11 +108,11 @@ export default {
                 );
 
                 const progress = this.$store.getters.getAudioElement.currentTime / this.$store.getters.getAudioElement.duration * 100;
-                this.$store.dispatch('setProgress', `${progress}%`);
+                this.$store.dispatch('setProgress', progress);
             }
         },
         handleUpdateVolumeProgressBar(){
-            this.$store.dispatch('setVolume', `${this.$store.getters.getAudioElement.volume * 100}%`);
+            this.$store.dispatch('setVolume', this.$store.getters.getAudioElement.volume * 100);
         },
         resetMouseDown(){
             this.$store.dispatch('setMouseDown', false);
@@ -129,5 +129,7 @@ export default {
 </script>
 
 <style scoped>
-  
+  .container.fluid.grid-list {
+    padding: 0;
+}
 </style>

@@ -6,7 +6,7 @@ const state = {
   shuffledPlaylist: [],
   playing: true,
   currentTime: '0:00',
-  progress: '0%',
+  progress: 0,
   remainingTime: '',
   volume: '100%',
   mouseDown: false,

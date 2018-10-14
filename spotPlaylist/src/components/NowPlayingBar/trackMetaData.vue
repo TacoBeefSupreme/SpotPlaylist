@@ -69,38 +69,10 @@ export default {
     .text-truncate{
         margin-left: 13px; 
     }
-    .artwork {
-        height: 55px;
-        max-width: 55px;
-        margin-right: 15px;
-        /* float: left; */
-        background-size: cover;
-    }
-    .float-right {
-        overflow: hidden;
-    }
-    .trackData {
-        display: table;
-        overflow: hidden;
-        border-bottom: 50px;
+
+    .container {
+        padding-bottom: 0;
+        padding-top: 15px;
     }
 
-    .trackName span{
-        display: inline-flex;
-        /* margin: 2px 0; */
-        width: 100%;
-        font-size: 12px;
-        /* overflow: hidden; */
-        max-width: 150px;
-        max-height: 20px;
-    }
-
-    .artistName span {
-        display: inline-flex;
-        font-size: 12px;
-        color: rgb(123,123,123);
-        font-size: 9px;
-        max-width: 80px;
-        max-height: 27px;
-    }
 </style>
