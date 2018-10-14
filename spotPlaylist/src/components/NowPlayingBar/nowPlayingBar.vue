@@ -1,6 +1,37 @@
 <template>
+    <v-footer height="150" fixed>
+        <v-container fluid grid-list>
+            <v-layout>
+                <v-flex sm3>
+                     <TrackMetaData />
+                </v-flex>
+                <v-flex sm6>
+                    <audioControl />
+                </v-flex>
+                <v-flex sm3>
+                    <volumeControl />
+                </v-flex>
+            </v-layout>
+            <v-layout>
+                <div v-if="this.$store.getters.getCurrentTrack">
+                    <audio ref="audioElement" :src="setAudioSource" preload="auto"
+                        @loadeddata="handleLoad" @timeupdate="handleUpdateTimeProgressBar"  
+                        @volumechange="handleUpdateVolumeProgressBar" @ended="onNextSong"
+                        style="display:none">
+                    </audio>
+                </div>
+                
+                <div v-else>
+                    <audio ref="audioElement"></audio>
+                </div>
+            </v-layout>
+        </v-container>
+    </v-footer>    
+  
     
-    <div class="container-fluid" @mousedown="(e) => e.preventDefault()" @mousemove="(e) => e.preventDefault()" 
+
+
+    <!-- <div class="container-fluid" @mousedown="(e) => e.preventDefault()" @mousemove="(e) => e.preventDefault()" 
         @touchmove="(e) => e.preventDefault()" @touchstart="(e) => e.preventDefault()">
         <div class="row bar">
             <TrackMetaData />
@@ -19,7 +50,7 @@
         <div v-else>
             <audio ref="audioElement"></audio>
         </div>
-    </div>
+    </div> -->
  
 </template>
 
@@ -98,17 +129,5 @@ export default {
 </script>
 
 <style scoped>
-    .container-fluid {
-        height: 96px;
-        width: 100%;
-        background-color: rgb(246,246,246);
-        bottom: 0;
-        position: fixed;
-    }
-
-    .bar {
-        display: flex;
-        padding: 16px;
-        box-sizing: border-box;
-    }
+  
 </style>

@@ -1,5 +1,32 @@
 <template>
-    <div class="col-3">
+    <v-container>
+        <v-layout align-center justify-center row fill-height>
+            <v-flex sm12>
+                <v-img 
+                    :src="setArtworkPath"
+                    contain
+                    width="55"
+                    height="55"
+                    class="float: left"
+                    pa-1
+                >
+                </v-img>
+                <v-spacer></v-spacer>
+                <div class="text-truncate">
+                    <div class="text-truncate">
+                        <span>{{ setTracKName }}</span>
+                    </div>
+                    <div class="text-truncate">
+                        <span>{{ setArtistName }}</span>
+                    </div>
+                </div>
+            </v-flex>
+                
+                   
+        </v-layout>
+    </v-container>
+
+    <!-- <div class="col-3">
         <div class="row">
             <div class="content float-left">
                 <img class="artwork" v-bind:src="setArtworkPath"/>        
@@ -15,7 +42,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </template>
 
 <script>
@@ -39,6 +66,9 @@ export default {
 </script>
 
 <style scoped>
+    .text-truncate{
+        margin-left: 13px; 
+    }
     .artwork {
         height: 55px;
         max-width: 55px;
