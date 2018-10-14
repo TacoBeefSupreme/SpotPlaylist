@@ -16,6 +16,7 @@
     "material-design-icons-iconfont": "^3.0.3",
     "qs": "^6.5.2",
     "roboto-fontface": "*",
+    "vee-validate": "^2.1.0-beta.11",
     "vue": "^2.5.17",
     "vue-autosuggest": "^1.6.0",
     "vue-router": "^3.0.1",
